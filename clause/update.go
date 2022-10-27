@@ -78,10 +78,10 @@ func (c *Clause) Update(vec vector.Interface) {
 		// distribution. The direction along the state distribution is
 		// determined by the desired outcome as provided by the true label.
 		if tru && nne {
-			c.neg[i].Ini(+1)
+			c.neg[i].Ini(-1)
 		}
 		if !tru && nne {
-			c.neg[i].Ini(-1)
+			c.neg[i].Ini(+1)
 		}
 		if tru && pne {
 			c.pos[i].Ini(+1)
