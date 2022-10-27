@@ -34,9 +34,7 @@ func New(con Config) *Vector {
 func (v *Vector) Add(bit bool) {
 	if bit {
 		v.one = true
-	}
-
-	if bit {
+	} else {
 		v.zer = true
 	}
 
