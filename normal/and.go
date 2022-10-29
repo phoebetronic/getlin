@@ -4,7 +4,7 @@ import "github.com/phoebetron/getlin"
 
 type and struct{}
 
-func And() Interface {
+func And() getlin.Normal {
 	return &and{}
 }
 
