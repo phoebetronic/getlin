@@ -11,7 +11,7 @@ func (m *Module) Search(vec getlin.Vector) getlin.Vector {
 		out = vec
 	}
 
-	for _, x := range m.mod {
+	for _, x := range m.mpr.All() {
 		{
 			m.cac.Create(out)
 		}
