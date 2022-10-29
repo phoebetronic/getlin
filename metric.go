@@ -1,6 +1,6 @@
-package metric
+package getlin
 
-type Interface interface {
+type Metric interface {
 	Get() Getter
 	Set() Setter
 }
@@ -12,7 +12,7 @@ type Getter interface {
 
 type Setter interface {
 	Mat(int, int)
-	Sta(float32)
+	Sta(int, int)
 }
 
 type Matrix interface {
@@ -32,12 +32,21 @@ type Matrix interface {
 	//     TP / (TP + FP)
 	//
 	Ppv() float32
+	// Raw returns the currently recorded list of raw confusion matrix states.
+	Raw() [4]int
 }
 
 type States interface {
+	// Ind takes the ratio to be mapped to its raw interal state bucket. A
+	// Clause ratio can be used to update the states distribution like shown
+	// below.
+	//
+	//     met.Set().Sta(met.Get().Sta().Ind(rat), 1)
+	//
+	Ind(float32) int
 	// Nrm returns the normalized probability distribution across the currently
 	// recorded state buckets.
 	Nrm() [41]float32
 	// Raw returns the currently recorded list of raw state buckets.
-	Raw() [41]float32
+	Raw() [41]int
 }

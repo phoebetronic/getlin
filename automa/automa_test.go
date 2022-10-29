@@ -6,18 +6,19 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/phoebetron/getlin"
 )
 
 func Test_Automa_Lifecycle(t *testing.T) {
 	testCases := []struct {
-		set func(Interface)
+		set func(getlin.Automa)
 		sta int
 		poi float32
 		rat float32
 	}{
 		// Case 0
 		{
-			set: func(a Interface) {
+			set: func(a getlin.Automa) {
 				// nothing
 			},
 			sta: 4,
@@ -26,7 +27,7 @@ func Test_Automa_Lifecycle(t *testing.T) {
 		},
 		// Case 1
 		{
-			set: func(a Interface) {
+			set: func(a getlin.Automa) {
 				a.Add(1)
 				a.Add(1)
 			},
@@ -36,7 +37,7 @@ func Test_Automa_Lifecycle(t *testing.T) {
 		},
 		// Case 2
 		{
-			set: func(a Interface) {
+			set: func(a getlin.Automa) {
 				a.Add(3)
 				a.Add(1)
 			},
@@ -46,7 +47,7 @@ func Test_Automa_Lifecycle(t *testing.T) {
 		},
 		// Case 3
 		{
-			set: func(a Interface) {
+			set: func(a getlin.Automa) {
 				a.Add(3)
 				a.Add(2)
 				a.Add(5)
@@ -57,7 +58,7 @@ func Test_Automa_Lifecycle(t *testing.T) {
 		},
 		// Case 4
 		{
-			set: func(a Interface) {
+			set: func(a getlin.Automa) {
 				a.Add(3)
 				a.Add(5)
 				a.Rem(2)
@@ -68,7 +69,7 @@ func Test_Automa_Lifecycle(t *testing.T) {
 		},
 		// Case 5
 		{
-			set: func(a Interface) {
+			set: func(a getlin.Automa) {
 				a.Add(3)
 				a.Add(5)
 				a.Rem(16)
@@ -79,7 +80,7 @@ func Test_Automa_Lifecycle(t *testing.T) {
 		},
 		// Case 6
 		{
-			set: func(a Interface) {
+			set: func(a getlin.Automa) {
 				a.Rem(3)
 				a.Add(5)
 				a.Rem(3)
@@ -92,7 +93,7 @@ func Test_Automa_Lifecycle(t *testing.T) {
 
 	for i, tc := range testCases {
 		t.Run(fmt.Sprintf("%03d", i), func(t *testing.T) {
-			var a Interface
+			var a getlin.Automa
 			{
 				a = New(Config{
 					Sta: tc.sta,

@@ -1,6 +1,6 @@
-package automa
+package getlin
 
-type Interface interface {
+type Automa interface {
 	// Add increases the automa's state distribution by cou. That is, if the
 	// automa's internal state pointer were 15 and cou were 3, then the automa's
 	// internal state pointer would be set to 18. Similarly adding 5 to the

@@ -3,11 +3,11 @@ package clause
 import (
 	"math/rand"
 
+	"github.com/phoebetron/getlin"
 	"github.com/phoebetron/getlin/metric"
-	"github.com/phoebetron/getlin/vector"
 )
 
-func (c *Clause) Update(vec vector.Interface) {
+func (c *Clause) Update(vec getlin.Vector) {
 	var ran float32
 	{
 		ran = rand.Float32()
@@ -15,10 +15,10 @@ func (c *Clause) Update(vec vector.Interface) {
 
 	var tru bool
 	{
-		tru = vec.Tru(0)
+		tru = vec.Tru()[0]
 	}
 
-	for i := 0; i < vec.Len(); i++ {
+	for i := range vec.Bit() {
 		var nrt float32
 		var prt float32
 		{
@@ -154,23 +154,23 @@ func (c *Clause) Update(vec vector.Interface) {
 			}
 
 			if nex {
-				c.met.Set().Sta(-nrt)
+				c.met.Set().Sta(c.met.Get().Sta().Ind(-nrt), 1)
 			}
 			if nrt == 0 {
-				c.met.Set().Sta(nrt)
+				c.met.Set().Sta(c.met.Get().Sta().Ind(nrt), 1)
 			}
 			if nin {
-				c.met.Set().Sta(+nrt)
+				c.met.Set().Sta(c.met.Get().Sta().Ind(+nrt), 1)
 			}
 
 			if pex {
-				c.met.Set().Sta(-prt)
+				c.met.Set().Sta(c.met.Get().Sta().Ind(-prt), 1)
 			}
 			if prt == 0 {
-				c.met.Set().Sta(prt)
+				c.met.Set().Sta(c.met.Get().Sta().Ind(prt), 1)
 			}
 			if pin {
-				c.met.Set().Sta(+prt)
+				c.met.Set().Sta(c.met.Get().Sta().Ind(+prt), 1)
 			}
 		}
 	}

@@ -1,5 +1,7 @@
 package vector
 
+import "github.com/phoebetron/getlin"
+
 type Vector struct {
 	bit []bool
 	tru []bool
@@ -26,6 +28,8 @@ func New(con Config) *Vector {
 
 	return &Vector{
 		bit: con.Bit,
+		tru: con.Tru,
+
 		one: one,
 		zer: zer,
 	}
@@ -43,8 +47,8 @@ func (v *Vector) Add(bit bool) {
 	}
 }
 
-func (v *Vector) And() Interface {
-	var vec Interface
+func (v *Vector) And() getlin.Vector {
+	var vec getlin.Vector
 	{
 		vec = New(Config{})
 	}
@@ -62,8 +66,8 @@ func (v *Vector) Bit() []bool {
 	return append([]bool{}, v.bit...)
 }
 
-func (v *Vector) Len() int {
-	return len(v.bit)
+func (v *Vector) Eql(vec getlin.Vector) bool {
+	return eql(v.Bit(), vec.Bit()) && eql(v.Tru(), vec.Tru())
 }
 
 func (v *Vector) Neg(ind int) bool {
@@ -78,10 +82,24 @@ func (v *Vector) Pos(ind int) bool {
 	return v.bit[ind]
 }
 
-func (v *Vector) Tru(ind int) bool {
-	return v.tru[ind]
+func (v *Vector) Tru() []bool {
+	return append([]bool{}, v.tru...)
 }
 
 func (v *Vector) Zer() bool {
 	return v.zer && !v.one
+}
+
+func eql(a []bool, b []bool) bool {
+	if len(a) != len(b) {
+		return false
+	}
+
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+
+	return true
 }
