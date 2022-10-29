@@ -1,6 +1,7 @@
 package linear
 
 import (
+	"github.com/phoebetron/getlin"
 	"github.com/phoebetron/getlin/active"
 	"github.com/phoebetron/getlin/clause"
 	"github.com/phoebetron/getlin/metric"
@@ -8,8 +9,8 @@ import (
 )
 
 type Module struct {
-	cla []clause.Interface
-	met metric.Interface
+	cla []getlin.Clause
+	met getlin.Metric
 	ser serial.Interface
 }
 
@@ -23,12 +24,12 @@ func New(con Config) *Module {
 		act = active.Hrl()
 	}
 
-	var met metric.Interface
+	var met getlin.Metric
 	{
 		met = metric.New(metric.Config{})
 	}
 
-	var cla []clause.Interface
+	var cla []getlin.Clause
 	for i := 0; i < con.Out; i++ {
 		cla = append(cla, clause.New(clause.Config{
 			Act: act,

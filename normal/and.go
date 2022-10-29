@@ -1,15 +1,13 @@
 package normal
 
-import (
-	"github.com/phoebetron/getlin/vector"
-)
+import "github.com/phoebetron/getlin"
 
 type and struct{}
 
-func And() Interface {
+func And() getlin.Normal {
 	return &and{}
 }
 
-func (s *and) Normal(vec vector.Interface) vector.Interface {
+func (s *and) Normal(vec getlin.Vector) getlin.Vector {
 	return vec.And()
 }

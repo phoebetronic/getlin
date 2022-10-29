@@ -1,8 +1,8 @@
 package clause
 
 import (
+	"github.com/phoebetron/getlin"
 	"github.com/phoebetron/getlin/active"
-	"github.com/phoebetron/getlin/metric"
 	"github.com/phoebetron/getlin/serial"
 )
 
@@ -11,7 +11,7 @@ type Config struct {
 	Act active.Interface
 	// Met is the telemetric like object recording statistical information about
 	// the Clause's runtime behaviour.
-	Met metric.Interface
+	Met getlin.Metric
 	// Ser is a serialization method enabling the Clause to be stored and
 	// loaded. Algorithms for JSON or Protocl Buffers may be used here.
 	Ser serial.Interface

@@ -1,8 +1,8 @@
 package serial
 
-import "github.com/phoebetron/getlin/vector"
+import "github.com/phoebetron/getlin"
 
 type Interface interface {
-	Reader([]byte) vector.Interface
-	Writer(vector.Interface) []byte
+	Reader([]byte) getlin.Vector
+	Writer(getlin.Vector) []byte
 }

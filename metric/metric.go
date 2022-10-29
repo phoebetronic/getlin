@@ -1,5 +1,7 @@
 package metric
 
+import "github.com/phoebetron/getlin"
+
 type Metric struct {
 	get *getter
 	set *setter
@@ -29,10 +31,10 @@ func New(con Config) *Metric {
 	}
 }
 
-func (m *Metric) Get() Getter {
+func (m *Metric) Get() getlin.Getter {
 	return m.get
 }
 
-func (m *Metric) Set() Setter {
+func (m *Metric) Set() getlin.Setter {
 	return m.set
 }

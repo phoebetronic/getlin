@@ -1,9 +1,12 @@
 package linear
 
-import "github.com/phoebetron/getlin/vector"
+import (
+	"github.com/phoebetron/getlin"
+	"github.com/phoebetron/getlin/vector"
+)
 
-func (m *Module) Search(vec vector.Interface) vector.Interface {
-	var prd vector.Interface
+func (m *Module) Search(vec getlin.Vector) getlin.Vector {
+	var prd getlin.Vector
 	{
 		prd = vector.New(vector.Config{})
 	}
