@@ -1,8 +1,6 @@
 package clause
 
 import (
-	"math/rand"
-
 	"github.com/phoebetron/getlin"
 	"github.com/phoebetron/getlin/metric"
 )
@@ -10,15 +8,15 @@ import (
 func (c *Clause) Update(vec getlin.Vector) {
 	var ran float32
 	{
-		ran = rand.Float32()
+		ran = c.ran.F32()
 	}
 
 	var tru bool
 	{
-		tru = vec.Tru()[0]
+		tru = vec.Out().Raw()[0]
 	}
 
-	for i := range vec.Bit() {
+	for i := range vec.Inp().Raw() {
 		var nrt float32
 		var prt float32
 		{
@@ -32,8 +30,8 @@ func (c *Clause) Update(vec getlin.Vector) {
 		var nfp bool
 		var pfp bool
 		{
-			nfp = c.act.Active(nrt, ran)
-			pfp = c.act.Active(prt, ran)
+			nfp = c.act.Act(nrt, ran)
+			pfp = c.act.Act(prt, ran)
 		}
 
 		if !nfp && !pfp {
@@ -47,8 +45,8 @@ func (c *Clause) Update(vec getlin.Vector) {
 		var nlm bool
 		var plm bool
 		{
-			nlm = vec.Neg(i) == tru
-			plm = vec.Pos(i) == tru
+			nlm = vec.Inp().Neg(i) == tru
+			plm = vec.Inp().Pos(i) == tru
 		}
 
 		// The negative and positive exclusion and inclusion statements help us
@@ -123,53 +121,68 @@ func (c *Clause) Update(vec getlin.Vector) {
 			c.pos[i].Add(1)
 		}
 
-		// Sample metrics 10% of the time. Most relevant metrics for now are
+		// Sample metrics 5% of the time. Most relevant metrics for now are
 		// related to computing a confusion matrix and getting insights into the
 		// internal automa state distribution.
-		if ran < 0.1 {
-			if tru == vec.Neg(i) {
+		if ran <= 0.05 {
+			if tru == vec.Inp().Neg(i) {
 				c.met.Set().Mat(metric.TP, 1)
 			}
-			if !tru == !vec.Neg(i) {
+			if !tru == !vec.Inp().Neg(i) {
 				c.met.Set().Mat(metric.TN, 1)
 			}
-			if tru == !vec.Neg(i) {
+			if tru == !vec.Inp().Neg(i) {
 				c.met.Set().Mat(metric.FN, 1)
 			}
-			if !tru == vec.Neg(i) {
+			if !tru == vec.Inp().Neg(i) {
 				c.met.Set().Mat(metric.FP, 1)
 			}
 
-			if tru == vec.Pos(i) {
+			if tru == vec.Inp().Pos(i) {
 				c.met.Set().Mat(metric.TP, 1)
 			}
-			if !tru == !vec.Pos(i) {
+			if !tru == !vec.Inp().Pos(i) {
 				c.met.Set().Mat(metric.TN, 1)
 			}
-			if tru == !vec.Pos(i) {
+			if tru == !vec.Inp().Pos(i) {
 				c.met.Set().Mat(metric.FN, 1)
 			}
-			if !tru == vec.Pos(i) {
+			if !tru == vec.Inp().Pos(i) {
 				c.met.Set().Mat(metric.FP, 1)
 			}
 
-			if nex {
+			// Collecting runtime statistics happens after the modification of
+			// automa states has happened. In order to capture the accurate
+			// state of the current point in time all relevant information have
+			// to be gathered once again. So we cannot rely on the scope
+			// variables of this loop, but rather have to invest a little bit
+			// more compute 5% of the time. The added accuracy here may not have
+			// a meaningful impact operating the system, which leaves an
+			// argument for sacrifizing "meaningless" accuracy of metrics
+			// collection in favour of compute benefits, which remain
+			// unquantified at this point.
+			{
+				nrt = c.neg[i].Rat()
+				prt = c.pos[i].Rat()
+			}
+
+			if c.neg[i].Exc() {
 				c.met.Set().Sta(c.met.Get().Sta().Ind(-nrt), 1)
 			}
-			if nrt == 0 {
+			if c.neg[i].Neu() {
 				c.met.Set().Sta(c.met.Get().Sta().Ind(nrt), 1)
 			}
-			if nin {
+			if c.neg[i].Inc() {
 				c.met.Set().Sta(c.met.Get().Sta().Ind(+nrt), 1)
 			}
 
-			if pex {
+			if c.pos[i].Exc() {
 				c.met.Set().Sta(c.met.Get().Sta().Ind(-prt), 1)
 			}
-			if prt == 0 {
+			if c.pos[i].Neu() {
 				c.met.Set().Sta(c.met.Get().Sta().Ind(prt), 1)
 			}
-			if pin {
+			if c.pos[i].Inc() {
 				c.met.Set().Sta(c.met.Get().Sta().Ind(+prt), 1)
 			}
 		}

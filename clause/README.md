@@ -1,10 +1,10 @@
-# clause 
+# clause
 
 A Clause is formed by collections of Tsetlin Automata (TA). See the `automa`
 package. The number of TAs is always equal to the length of the binary input
 vector `X`, or the number of features processed by each and every Clause. Each
 Clause processes input in its original form, here namely positive polarity, and
-its inverted form, here namely negative polarity. 
+its inverted form, here namely negative polarity.
 
 In the figure below, TAs track their states along the horizontal state
 distribution. Each TA is only ever responsible for one and the same input bit

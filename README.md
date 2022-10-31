@@ -1,11 +1,9 @@
 # getlin
 
 A Golang implementation of the [Tsetlin Machine] as proposed in [the original
-paper]. So `G`olang + Ts`etlin` = `Getlin`, as in [Gatling Gun], you get it. 
+paper]. So `G`olang + Ts`etlin` = `Getlin`, as in [Gatling Gun], you get it.
 
-
-
-### abstract 
+### abstract
 
 Given a binary input vector, the system produces a certain output vector. The
 output vector quality improves upon learning predictive properties via
@@ -19,9 +17,7 @@ learnable global maxima.
 [Gatling Gun]: https://en.wikipedia.org/wiki/Gatling_gun
 [Boolean Algebra]: https://en.wikipedia.org/wiki/Boolean_algebra
 
-
-
-### implementation 
+### implementation
 
 The first implementation of the Tsetlin Automata states here is based on Golang
 `bool` types, of which each occupies a single byte. See the `clause` and

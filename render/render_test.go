@@ -49,17 +49,17 @@ func Test_Render_Create(t *testing.T) {
 		{
 			mod: [][]getlin.Module{
 				{
-					muslin(64, 32),
-					muslin(64, 32),
+					muslin(512, 32),
+					muslin(512, 32),
 				},
 				{
-					muslin(32, 10),
-					muslin(32, 10),
-					muslin(32, 10),
-					muslin(32, 10),
+					muslin(64, 16),
+					muslin(64, 16),
+					muslin(64, 16),
+					muslin(64, 16),
 				},
 				{
-					muslin(10, 64),
+					muslin(64, 64),
 				},
 			},
 		},

@@ -7,16 +7,9 @@ import (
 
 func (m *Module) Update(vec getlin.Vector) {
 	for i := range m.cla {
-		var bck getlin.Vector
-		{
-			bck = vector.New(vector.Config{
-				Bit: vec.Bit(),
-				Tru: []bool{vec.Tru()[i]},
-			})
-		}
-
-		{
-			m.cla[i].Update(bck)
-		}
+		m.cla[i].Update(vector.New(vector.Config{
+			Inp: vec.Inp().Raw(),
+			Out: []bool{vec.Out().Raw()[i]},
+		}))
 	}
 }

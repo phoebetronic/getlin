@@ -1,9 +1,15 @@
 package graphs
 
-import "github.com/phoebetron/getlin"
+import (
+	"github.com/phoebetron/getlin"
+	"github.com/phoebetron/getlin/metric"
+)
 
 func (m *Module) Metric() getlin.Metric {
 	var met getlin.Metric
+	{
+		met = metric.New(metric.Config{})
+	}
 
 	for _, x := range m.mpr.All() {
 		for _, y := range x {

@@ -1,9 +1,9 @@
 package vector
 
 type Config struct {
-	Bit []bool
-	Tru []bool
+	Inp []bool
+	Out []bool
 }
 
-func (c *Config) Verify() {
+func (c Config) Verify() {
 }

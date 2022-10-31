@@ -14,27 +14,27 @@ import (
 
 func Test_Module_Graphs_Search(t *testing.T) {
 	testCases := []struct {
-		inp getlin.Vector
+		vec getlin.Vector
 		mod getlin.Module
-		out getlin.Vector
+		res getlin.Vector
 	}{
 		// Case 0
 		{
-			inp: musvec([]int{}, []int{1}),
+			vec: musvec([]int{}, []int{1}),
 			mod: New(Config{
 				Mod: [][]getlin.Module{
 					{
-						static.New(static.Config{Out: musvec([]int{0, 0, 1}, []int{0})}),
-						static.New(static.Config{Out: musvec([]int{0, 0, 1}, []int{1})}),
-						static.New(static.Config{Out: musvec([]int{0, 0, 1}, []int{0})}),
+						static.New(static.Config{Out: musvec([]int{0}, []int{0, 0, 1})}),
+						static.New(static.Config{Out: musvec([]int{1}, []int{0, 0, 1})}),
+						static.New(static.Config{Out: musvec([]int{0}, []int{0, 0, 1})}),
 					},
 				},
 			}),
-			out: musvec([]int{0, 0, 1, 0, 0, 1, 0, 0, 1}, []int{}),
+			res: musvec([]int{}, []int{0, 0, 1, 0, 0, 1, 0, 0, 1}),
 		},
 		// Case 1
 		{
-			inp: musvec([]int{0, 0, 1}, []int{1}),
+			vec: musvec([]int{0, 0, 1}, []int{1}),
 			mod: New(Config{
 				Mod: [][]getlin.Module{
 					// The first layer receives the input [0 0 1] and creates
@@ -48,7 +48,7 @@ func Test_Module_Graphs_Search(t *testing.T) {
 					// and static module.
 					{
 						invert.New(invert.Config{}),
-						static.New(static.Config{Out: musvec([]int{1, 1, 1}, []int{1})}),
+						static.New(static.Config{Out: musvec([]int{1}, []int{1, 1, 1})}),
 					},
 					// The third layer receives the input [0 0 1 0 0 1 1 1 1]
 					// and creates the output [1 1 1 1 0 0 1 0 0] using its
@@ -58,31 +58,31 @@ func Test_Module_Graphs_Search(t *testing.T) {
 					},
 				},
 			}),
-			out: musvec([]int{1, 1, 1, 1, 0, 0, 1, 0, 0}, []int{}),
+			res: musvec([]int{0, 0, 1, 0, 0, 1, 1, 1, 1}, []int{1, 1, 1, 1, 0, 0, 1, 0, 0}),
 		},
 	}
 
 	for i, tc := range testCases {
 		t.Run(fmt.Sprintf("%03d", i), func(t *testing.T) {
-			var out getlin.Vector
+			var vec getlin.Vector
 			{
-				out = tc.mod.Search(tc.inp)
+				vec = tc.mod.Search(tc.vec)
 			}
 
-			if !reflect.DeepEqual(out.Bit(), tc.out.Bit()) {
-				t.Fatalf("bit\n\n%s\n", cmp.Diff(tc.out.Bit(), out.Bit()))
+			if !reflect.DeepEqual(vec.Inp().Raw(), tc.res.Inp().Raw()) {
+				t.Fatalf("inp\n\n%s\n", cmp.Diff(tc.res.Inp().Raw(), vec.Inp().Raw()))
 			}
-			if !reflect.DeepEqual(out.Tru(), tc.out.Tru()) {
-				t.Fatalf("tru\n\n%s\n", cmp.Diff(tc.out.Tru(), out.Tru()))
+			if !reflect.DeepEqual(vec.Out().Raw(), tc.res.Out().Raw()) {
+				t.Fatalf("out\n\n%s\n", cmp.Diff(tc.res.Out().Raw(), vec.Out().Raw()))
 			}
 		})
 	}
 }
 
-func musvec(bit []int, tru []int) getlin.Vector {
+func musvec(inp []int, out []int) getlin.Vector {
 	return vector.New(vector.Config{
-		Bit: tobool(bit),
-		Tru: tobool(tru),
+		Inp: tobool(inp),
+		Out: tobool(out),
 	})
 }
 
