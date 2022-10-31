@@ -2,16 +2,18 @@ package clause
 
 import (
 	"github.com/phoebetron/getlin"
-	"github.com/phoebetron/getlin/active"
 	"github.com/phoebetron/getlin/serial"
 )
 
 type Config struct {
 	// Act is an activation function used for stochastic feedback activation.
-	Act active.Interface
+	Act getlin.Active
 	// Met is the telemetric like object recording statistical information about
 	// the Clause's runtime behaviour.
 	Met getlin.Metric
+	// Ran provides randomization primitives for guaranteeing stochastic
+	// properties of the internal feedback mechanisms.
+	Ran getlin.Random
 	// Ser is a serialization method enabling the Clause to be stored and
 	// loaded. Algorithms for JSON or Protocl Buffers may be used here.
 	Ser serial.Interface
@@ -59,12 +61,15 @@ type Config struct {
 	Tas int
 }
 
-func (c *Config) Verify() {
+func (c Config) Verify() {
 	if c.Act == nil {
 		panic("Config.Act must not be empty")
 	}
 	if c.Met == nil {
 		panic("Config.Met must not be empty")
+	}
+	if c.Ran == nil {
+		panic("Config.Ran must not be empty")
 	}
 	// if c.Ser == nil {
 	// 	panic("Config.Ser must not be empty")

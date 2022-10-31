@@ -6,30 +6,14 @@ import (
 )
 
 func (m *Module) Search(vec getlin.Vector) getlin.Vector {
-	var bit []bool
+	var inp []bool
 	{
-		bit = vec.Bit()
+		inp = vec.Inp().Raw()
 	}
 
-	for l, r := 0, len(bit)-1; l < r; l, r = l+1, r-1 {
-		bit[l], bit[r] = bit[r], bit[l]
+	for l, r := 0, len(inp)-1; l < r; l, r = l+1, r-1 {
+		inp[l], inp[r] = inp[r], inp[l]
 	}
 
-	var tru []bool
-	{
-		tru = vec.Tru()
-	}
-
-	for l, r := 0, len(tru)-1; l < r; l, r = l+1, r-1 {
-		tru[l], tru[r] = tru[r], tru[l]
-	}
-
-	var inv getlin.Vector
-	{
-		inv = vector.New(vector.Config{
-			Bit: bit,
-			Tru: tru,
-		})
-	}
-	return inv
+	return vector.New(vector.Config{Out: inp})
 }

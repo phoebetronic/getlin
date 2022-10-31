@@ -10,7 +10,7 @@ type Config struct {
 	Sta int
 }
 
-func (c *Config) Verify() {
+func (c Config) Verify() {
 	if c.Sta == 0 {
 		panic("Config.Sta must not be empty")
 	}

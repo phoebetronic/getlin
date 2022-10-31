@@ -6,14 +6,14 @@ import (
 )
 
 func (m *Module) Search(vec getlin.Vector) getlin.Vector {
-	var prd getlin.Vector
+	var out getlin.Vector
 	{
-		prd = vector.New(vector.Config{})
+		out = vector.New(vector.Config{})
 	}
 
 	for _, x := range m.cla {
-		prd.Add(x.Search(vec))
+		out.Out().Add(x.Search(vec))
 	}
 
-	return prd
+	return out
 }

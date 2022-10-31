@@ -1,10 +1,15 @@
 package cacher
 
-import "github.com/phoebetron/getlin"
+import (
+	"fmt"
+
+	"github.com/phoebetron/getlin"
+	"github.com/phoebetron/getlin/vector"
+)
 
 type Cacher struct {
 	ind int
-	vec map[int]getlin.Linker
+	vec map[int]getlin.Vector
 }
 
 func New(con Config) *Cacher {
@@ -13,26 +18,56 @@ func New(con Config) *Cacher {
 	}
 
 	return &Cacher{
-		vec: map[int]getlin.Linker{},
+		ind: -1,
+		vec: map[int]getlin.Vector{},
 	}
 }
 
-func (m *Cacher) Create(inp getlin.Vector) {
-	m.ind++
-	m.vec[m.ind] = getlin.Linker{Inp: inp}
+func (c *Cacher) Add(inp getlin.Binary) {
+	c.ind++
+	c.vec[c.ind] = vector.New(vector.Config{Inp: inp.Raw()})
 }
 
-func (m *Cacher) Delete() {
-	m.ind = 0
-	m.vec = map[int]getlin.Linker{}
+func (c *Cacher) Del() {
+	c.ind = -1
+	c.vec = map[int]getlin.Vector{}
 }
 
-func (m *Cacher) Latest() getlin.Linker {
-	return m.vec[m.ind]
+func (c *Cacher) Lat() getlin.Vector {
+	x := c.vec[c.ind]
+	return x
 }
 
-func (m *Cacher) Update(out getlin.Vector) {
-	vec := m.vec[m.ind]
-	vec.Out = out
-	m.vec[m.ind] = vec
+func (c *Cacher) Log() {
+	fmt.Printf("%4s %15s %15s\n", "lay", "inp", "out")
+	fmt.Printf("\n")
+
+	for k, v := range c.vec {
+		fmt.Printf("%4d %15s %15s\n", k, fmt.Sprintf("%v", tobits(v.Inp().Raw())), fmt.Sprintf("%v", tobits(v.Out().Raw())))
+	}
+}
+
+func (c *Cacher) Upd(out getlin.Binary) {
+	c.vec[c.ind] = vector.New(vector.Config{
+		Inp: c.vec[c.ind].Inp().Raw(),
+		Out: out.Raw(),
+	})
+}
+
+func (c *Cacher) Vec(ind int) getlin.Vector {
+	return c.vec[ind]
+}
+
+func tobits(raw []bool) []int {
+	var bit []int
+
+	for _, x := range raw {
+		if x {
+			bit = append(bit, 1)
+		} else {
+			bit = append(bit, 0)
+		}
+	}
+
+	return bit
 }

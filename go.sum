@@ -1,2 +1,4 @@
 github.com/google/go-cmp v0.5.9 h1:O2Tfq5qg4qc4AmwVlvv0oLiVAGB7enBSJ2x2DqQFi38=
 github.com/google/go-cmp v0.5.9/go.mod h1:17dUlkBOakJ0+DkrSSNjCkIjxS6bF9zb3elmeNGIjoY=
+github.com/xh3b4sd/tracer v0.5.1 h1:Y4639ve7PT+1MSiq0I3Yi7vOeJAYBKgzlSR68jA+SuI=
+github.com/xh3b4sd/tracer v0.5.1/go.mod h1:sYg6KI0svCEb2an8Hf0cYR0rOY94bIrN27TRsJi4+x4=

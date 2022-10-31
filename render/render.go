@@ -74,11 +74,17 @@ func linker(lef int, rig int) string {
 }
 
 func record(mod getlin.Module, ind int) string {
+	var sta int
+	if mod.Clause() != 0 {
+		sta = mod.Automa() / 2 / mod.Clause()
+	}
+
 	return fmt.Sprintf(
-		"M%03d [shape=record, label=\"{{Module|%s}|{Clause|%d}|{Automa|%d}}\", fontname=\"Courier\"];",
+		"M%03d [shape=record, label=\"{%s}|{{Inp|%d}|{States|%d}|{Out|%d}}\", fontname=\"Courier\"];",
 		ind,
 		module(mod),
-		mod.Clause(),
+		sta,
 		mod.Automa(),
+		mod.Clause(),
 	)
 }

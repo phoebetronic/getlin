@@ -1,13 +1,10 @@
 package getlin
 
 type Cacher interface {
-	Create(Vector)
-	Delete()
-	Latest() Linker
-	Update(Vector)
-}
-
-type Linker struct {
-	Inp Vector
-	Out Vector
+	Add(Binary)
+	Del()
+	Lat() Vector
+	Log()
+	Upd(Binary)
+	Vec(int) Vector
 }

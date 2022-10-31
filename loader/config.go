@@ -6,7 +6,7 @@ type Config struct {
 	Rep string
 }
 
-func (c *Config) Verify() {
+func (c Config) Verify() {
 	if !c.Git {
 		panic("Config.Git must not be empty")
 	}

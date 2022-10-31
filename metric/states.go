@@ -20,7 +20,7 @@ func (s *states) Ind(rat float32) int {
 	}
 
 	if rat < 0 {
-		return int(rat / -fac)
+		return hal - int(rat/-fac)
 	}
 
 	if rat == 0 {
@@ -28,7 +28,7 @@ func (s *states) Ind(rat float32) int {
 	}
 
 	// rat > 0
-	return int(rat / +fac)
+	return hal + int(rat/+fac)
 }
 
 func (s *states) Nrm() [41]float32 {
@@ -36,6 +36,10 @@ func (s *states) Nrm() [41]float32 {
 
 	for _, x := range s.dat {
 		sum += x
+	}
+
+	if sum == 0 {
+		return [41]float32{}
 	}
 
 	var nrm [41]float32
