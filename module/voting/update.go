@@ -18,17 +18,7 @@ func (m *Module) Update(vec getlin.Vector) {
 	{
 		m.wei.Update(vector.New(vector.Config{
 			Inp: vec.Inp().Raw(),
-			Out: output(vec.Out().Raw(), m.wei.Shaper().Out()),
+			Out: vector.Repeat(vec.Out().Raw(), m.wei.Shaper().Out()),
 		}))
 	}
-}
-
-func output(tru []bool, out int) []bool {
-	var rep []bool
-
-	for k := 0; k < out; k++ {
-		rep = append(rep, tru...)
-	}
-
-	return rep
 }

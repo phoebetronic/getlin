@@ -39,7 +39,7 @@ func (m *Module) Update(vec getlin.Vector) {
 			{
 				y.Update(vector.New(vector.Config{
 					Inp: m.cac.Vec(i).Inp().Raw(),
-					Out: output(tru[t[0]:t[1]], y.Shaper().Out()),
+					Out: vector.Repeat(tru[t[0]:t[1]], y.Shaper().Out()),
 				}))
 			}
 		}
@@ -48,14 +48,4 @@ func (m *Module) Update(vec getlin.Vector) {
 	{
 		m.cac.Del()
 	}
-}
-
-func output(tru []bool, out int) []bool {
-	var rep []bool
-
-	for k := 0; k < out; k++ {
-		rep = append(rep, tru...)
-	}
-
-	return rep
 }

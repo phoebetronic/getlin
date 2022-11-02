@@ -27,26 +27,11 @@ func muslin(inp int, out int) getlin.Module {
 
 func musvec(inp []int, out []int) getlin.Vector {
 	return vector.New(vector.Config{
-		Inp: tobool(inp),
-		Out: tobool(out),
+		Inp: vector.ToBool(inp...),
+		Out: vector.ToBool(out...),
 	})
 }
 
 func musvot(inp int) getlin.Module {
 	return voting.New(voting.Config{Inp: inp})
-}
-
-func tobool(lis []int) []bool {
-	var bol []bool
-
-	for _, x := range lis {
-		if x == 0 {
-			bol = append(bol, false)
-		}
-		if x == 1 {
-			bol = append(bol, true)
-		}
-	}
-
-	return bol
 }
