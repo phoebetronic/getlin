@@ -21,46 +21,46 @@ func New(con Config) *Mapper {
 
 	lin := map[getlin.Module]Linker{}
 
-	var lay int
+	var fir int
 	for _, x := range con.Mod[0] {
-		lay += x.Clause()
+		fir += x.Shaper().Out()
+	}
+
+	var out int
+	for _, x := range con.Mod[len(con.Mod)-1] {
+		out += x.Shaper().Out()
 	}
 
 	var pre []getlin.Module
 	for i, x := range con.Mod {
-		var out int
+		var lay []int
+		var sum int
 		for _, y := range x {
-			out += y.Clause()
+			lay = append(lay, y.Shaper().Out())
+			sum += y.Shaper().Out()
 		}
 
-		if out != lay {
+		if sum != fir && sum/len(x) != 1 {
 			con.Err(tracer.Maskf(
 				invalidMappingError,
 				"the cumulative output Vector length %d defined by layer 0 is incompatible with the output Vector length %d defined by layer %d",
-				lay,
-				out,
+				fir,
+				sum,
 				i,
 			))
 		}
 
-		for _, y := range x {
-			if y.Clause() != 0 && i > 0 {
-				var inp int
-				{
-					inp = y.Automa() / 2 / y.Clause()
-				}
-
-				if inp != lay {
-					con.Err(tracer.Maskf(
-						invalidMappingError,
-						"the cumulative output Vector length %d defined by layer %d is incompatible with the input Vector length %d defined by Module %d in layer %d",
-						lay,
-						i-1,
-						inp,
-						len(lin),
-						i,
-					))
-				}
+		for j, y := range x {
+			if i > 0 && y.Shaper().Inp() != fir {
+				con.Err(tracer.Maskf(
+					invalidMappingError,
+					"the cumulative output Vector length %d defined by layer %d is incompatible with the input Vector length %d defined by Module %d in layer %d",
+					fir,
+					i-1,
+					y.Shaper().Inp(),
+					len(lin),
+					i,
+				))
 			}
 
 			var a Linker
@@ -68,9 +68,24 @@ func New(con Config) *Mapper {
 				a = lin[y]
 			}
 
+			var tru [2]int
+			{
+				tru = matcht(lay, out, j)
+			}
+
+			if tru[1] == 0 {
+				con.Err(tracer.Maskf(
+					invalidMappingError,
+					"Module %d in layer %d cannot receive accurate feedback considering its position, output Vector length and respective true label relationship",
+					len(lin),
+					i,
+				))
+			}
+
 			{
 				a.Ind = len(lin)
 				a.Lay = i
+				a.Tru = tru
 			}
 
 			for _, p := range pre {
@@ -96,38 +111,6 @@ func New(con Config) *Mapper {
 
 		{
 			pre = x
-		}
-	}
-
-	for _, x := range con.Mod {
-		var lef float32
-
-		for _, y := range x {
-			if y.Clause() == 0 {
-				continue
-			}
-
-			var rig float32
-			{
-				rig = lef + float32(y.Clause())
-			}
-
-			var l Linker
-			{
-				l = lin[y]
-			}
-
-			{
-				l.Tru = []int{int(lef), int(rig)}
-			}
-
-			{
-				lin[y] = l
-			}
-
-			{
-				lef = rig
-			}
 		}
 	}
 
@@ -157,6 +140,6 @@ func (m *Mapper) Lay(mod getlin.Module) int {
 	return m.lin[mod].Lay
 }
 
-func (m *Mapper) Tru(mod getlin.Module) []int {
+func (m *Mapper) Tru(mod getlin.Module) [2]int {
 	return m.lin[mod].Tru
 }

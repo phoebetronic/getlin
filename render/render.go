@@ -12,19 +12,41 @@ func Create(mpr getlin.Mapper) []string {
 	var dot []string
 	{
 		dot = append(dot, "digraph {")
-		dot = append(dot, "rankdir=LR;")
+		dot = append(dot, "edge [style=invis];")
+		dot = append(dot, "graph [nodesep=1.0, rankdir=LR, style=dashed, ranksep=1.0];")
+		dot = append(dot, "node [fontname=\"Courier\", shape=record];")
 	}
 
-	for _, x := range mpr.All() {
-		for _, y := range x {
-			{
-				dot = append(dot, record(y, mpr.Ind(y)))
-			}
+	var rec func(getlin.Mapper, int)
+	{
+		rec = func(mpr getlin.Mapper, lev int) {
+			for _, x := range mpr.All() {
+				for j, y := range x {
+					if y.Mapper() == nil {
+						dot = append(dot, record(lev, y, mpr.Ind(y)))
+						dot = append(dot, subgrp(lev, mpr.Ind(y)))
+					} else {
+						rec(y.Mapper(), lev+j+1)
+					}
 
-			for _, z := range mpr.Bel(y) {
-				dot = append(dot, linker(mpr.Ind(y), mpr.Ind(z)))
+					for k, z := range mpr.Bel(y) {
+						if z.Mapper() == nil {
+							lin := linker(lev, mpr.Ind(y), lev, mpr.Ind(z))
+							dot = append(dot, lin)
+						} else {
+							for l := range z.Mapper().All()[0] {
+								lin := linker(lev, mpr.Ind(y), lev+k+1, l)
+								dot = append(dot, lin)
+							}
+						}
+					}
+				}
 			}
 		}
+	}
+
+	{
+		rec(mpr, 0)
 	}
 
 	{
@@ -69,22 +91,22 @@ func module(mod getlin.Module) string {
 	return strings.Replace(split[0], "*", "", 1)
 }
 
-func linker(lef int, rig int) string {
-	return fmt.Sprintf("M%03d -> M%03d;", lef, rig)
+func linker(pre int, lef int, nex int, rig int) string {
+	return fmt.Sprintf("L%03dM%03d -> L%03dM%03d;", pre, lef, nex, rig)
 }
 
-func record(mod getlin.Module, ind int) string {
-	var sta int
-	if mod.Clause() != 0 {
-		sta = mod.Automa() / 2 / mod.Clause()
-	}
-
+func record(lev int, mod getlin.Module, ind int) string {
 	return fmt.Sprintf(
-		"M%03d [shape=record, label=\"{%s}|{{Inp|%d}|{States|%d}|{Out|%d}}\", fontname=\"Courier\"];",
+		"L%03dM%03d [label=\"{%s}|{{Inp|%d}|{States|%d}|{Out|%d}}\"];",
+		lev,
 		ind,
 		module(mod),
-		sta,
-		mod.Automa(),
-		mod.Clause(),
+		mod.Shaper().Inp(),
+		mod.Shaper().Sta(),
+		mod.Shaper().Out(),
 	)
+}
+
+func subgrp(lev int, ind int) string {
+	return fmt.Sprintf("subgraph cluster%03d { L%03dM%03d }", lev, lev, ind)
 }

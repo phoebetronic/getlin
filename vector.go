@@ -33,20 +33,26 @@ type Binary interface {
 	// Eql asserts whether the current and the provided binary interfaces carry
 	// the same raw vector data for input and output.
 	Eql(Binary) bool
+	// Maj returns the majority bit. If vector were [1 0 1 1 0], then Maj would
+	// return true. If the amount of 0s and 1s were to be equal, Maj would
+	// default to returning false.
+	Maj() bool
 	// Neg returns the negative polarity bit carried at the given vector index.
-	// If vector were [0, 1, 1, 0] and ind were 2, then Neg would return false.
+	// If vector were [0 1 1 0] and ind were 2, then Neg would return false.
 	Neg(int) bool
 	// One returns true in case the current vector contains only 1s and no 0s.
 	// If the current vector is empty, then One returns false.
 	One() bool
 	// Pos returns the negative polarity bit carried at the given vector index.
-	// If vector were [0, 1, 1, 0] and ind were 2, then Pos would return true.
+	// If vector were [0 1 1 0] and ind were 2, then Pos would return true.
 	Pos(int) bool
 	// Raw returns a copy of all the raw vector bits.
 	Raw() []bool
 	// Spl cuts the current raw bits at the given index position and returns a
 	// new instance for both the left and right side of the split.
 	Spl(int) (Binary, Binary)
+	// Wei returns the ratio of the given bit across the whole Binary buffer.
+	Wei(bool) float32
 	// Zer returns true in case the current vector contains only 0s and no 1s.
 	// If the current vector is empty, then Zer returns false.
 	Zer() bool

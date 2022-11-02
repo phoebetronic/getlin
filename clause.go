@@ -1,8 +1,6 @@
 package getlin
 
 type Clause interface {
-	// Automa returns the number of TAs this Clause is made of.
-	Automa() int
 	// Metric returns the Clause's instance of a telemetric like object
 	// maintaining state of certain runtime behaviour.
 	Metric() Metric

@@ -11,6 +11,9 @@ type Linker struct {
 	Ind int
 	// Lay is the index of the layer this Linker's Module resides in.
 	Lay int
+	// Par is the higher order Module wrapping the linked Module here. Since not
+	// every Module may be wrapped, Par might be nil.
+	// Par getlin.Module
 	// Tru is the true label index range assigned to the Module linked here.
-	Tru []int
+	Tru [2]int
 }

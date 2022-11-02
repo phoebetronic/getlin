@@ -1,0 +1,1 @@
+digraph { edge [style=invis]; graph [nodesep=1.0, rankdir=LR, style=dashed, ranksep=1.0]; node [fontname="Courier", shape=record]; L000M000 [label="{linear}|{{Inp|2}|{States|8}|{Out|2}}"]; subgraph cluster000 { L000M000 } }
