@@ -6,12 +6,14 @@ import (
 	"github.com/phoebetron/getlin/clause"
 	"github.com/phoebetron/getlin/metric"
 	"github.com/phoebetron/getlin/serial"
+	"github.com/phoebetron/getlin/shaper"
 )
 
 type Module struct {
 	cla []getlin.Clause
 	met getlin.Metric
 	ser serial.Interface
+	sha getlin.Shaper
 }
 
 func New(con Config) *Module {
@@ -45,9 +47,19 @@ func New(con Config) *Module {
 		}))
 	}
 
+	var inp int
+	var out int
+	var sta int
+	{
+		inp = con.Inp
+		out = con.Out
+		sta = (2 * con.Inp) * con.Out
+	}
+
 	return &Module{
 		cla: cla,
 		met: met,
 		ser: con.Ser,
+		sha: shaper.New(shaper.Config{Inp: inp, Out: out, Sta: sta}),
 	}
 }

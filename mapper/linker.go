@@ -12,5 +12,5 @@ type Linker struct {
 	// Lay is the index of the layer this Linker's Module resides in.
 	Lay int
 	// Tru is the true label index range assigned to the Module linked here.
-	Tru []int
+	Tru [2]int
 }

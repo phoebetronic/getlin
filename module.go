@@ -1,10 +1,6 @@
 package getlin
 
 type Module interface {
-	// Automa returns the number of Automas this Module is made of.
-	Automa() int
-	// Clause returns the number of Clauses this Module is made of.
-	Clause() int
 	// Mapper is an internal data structure manager enabling Modules of complex
 	// architectures to be updated and rendered.
 	Mapper() Mapper
@@ -14,6 +10,8 @@ type Module interface {
 	// Search is doing inference, computing an output vector given an input
 	// vector.
 	Search(Vector) Vector
+	// Shaper returns the shape specification of this Module.
+	Shaper() Shaper
 	// States returns the internal state pointers of this Module's TAs as a
 	// single list. States may origin from different clauses, which in turn
 	// provide their states in different polarities.

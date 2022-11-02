@@ -21,23 +21,25 @@ func (m *Module) Update(vec getlin.Vector) {
 
 	for i, x := range m.mpr.All() {
 		for _, y := range x {
-			var t []int
+			// The true label range indices are used to create the desired
+			// output Vector for the next Module being updated. The output
+			// Vector we generate might be the scaled version of a single bit.
+			// That is, in nested architectures a whole Graphs Module may
+			// receive a single true label, which then has to be applied during
+			// feedback in any Module being part of its parent. The nested
+			// modules then may define multiple outputs themselves, which means
+			// that, the single true label received via its parent must be
+			// scaled to meet every nested Module's output requirements, in
+			// order for them to be updated.
+			var t [2]int
 			{
 				t = m.mpr.Tru(y)
-			}
-
-			//  Purely functional modules cannot be updated since they have no
-			//  learnable component within them. For those modules the Mapper
-			//  does not provide a true label index range. So we skip them to
-			//  ensure only learnable modules are being updated.
-			if len(t) == 0 {
-				continue
 			}
 
 			{
 				y.Update(vector.New(vector.Config{
 					Inp: m.cac.Vec(i).Inp().Raw(),
-					Out: tru[t[0]:t[1]],
+					Out: output(tru[t[0]:t[1]], y.Shaper().Out()),
 				}))
 			}
 		}
@@ -46,4 +48,14 @@ func (m *Module) Update(vec getlin.Vector) {
 	{
 		m.cac.Del()
 	}
+}
+
+func output(tru []bool, out int) []bool {
+	var rep []bool
+
+	for k := 0; k < out; k++ {
+		rep = append(rep, tru...)
+	}
+
+	return rep
 }

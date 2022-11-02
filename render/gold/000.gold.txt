@@ -1,1 +1,0 @@
-digraph { rankdir=LR; M000 [shape=record, label="{static}|{{Inp|0}|{States|0}|{Out|0}}", fontname="Courier"]; }

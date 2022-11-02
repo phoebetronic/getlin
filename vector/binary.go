@@ -5,18 +5,18 @@ import "github.com/phoebetron/getlin"
 type binary struct {
 	raw []bool
 
-	one bool
-	zer bool
+	one float32
+	zer float32
 }
 
 func newbin(raw ...bool) *binary {
-	var one bool
-	var zer bool
+	var one float32
+	var zer float32
 	for _, x := range raw {
 		if x {
-			one = true
+			one++
 		} else {
-			zer = true
+			zer++
 		}
 	}
 
@@ -30,9 +30,9 @@ func newbin(raw ...bool) *binary {
 
 func (b *binary) Add(bit bool) {
 	if bit {
-		b.one = true
+		b.one++
 	} else {
-		b.zer = true
+		b.zer++
 	}
 
 	{
@@ -56,12 +56,16 @@ func (b *binary) Eql(bin getlin.Binary) bool {
 	return eql(b.Raw(), bin.Raw())
 }
 
+func (b *binary) Maj() bool {
+	return b.one-b.zer >= 1
+}
+
 func (b *binary) Neg(ind int) bool {
 	return !b.raw[ind]
 }
 
 func (b *binary) One() bool {
-	return b.one && !b.zer
+	return b.one != 0 && b.zer == 0
 }
 
 func (b *binary) Pos(ind int) bool {
@@ -87,8 +91,16 @@ func (b *binary) Spl(ind int) (getlin.Binary, getlin.Binary) {
 	return newbin(lef...), newbin(rig...)
 }
 
+func (b *binary) Wei(bit bool) float32 {
+	if bit {
+		return b.one / (b.zer + b.one)
+	}
+
+	return b.zer / (b.zer + b.one)
+}
+
 func (b *binary) Zer() bool {
-	return b.zer && !b.one
+	return b.zer != 0 && b.one == 0
 }
 
 func eql(a []bool, b []bool) bool {
