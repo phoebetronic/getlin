@@ -43,7 +43,12 @@ func (c *Cacher) Log() {
 	fmt.Printf("\n")
 
 	for k, v := range c.vec {
-		fmt.Printf("%4d %15s %15s\n", k, fmt.Sprintf("%v", tobits(v.Inp().Raw())), fmt.Sprintf("%v", tobits(v.Out().Raw())))
+		fmt.Printf(
+			"%4d %15s %15s\n",
+			k,
+			fmt.Sprintf("%v", vector.ToBits(v.Inp().Raw()...)),
+			fmt.Sprintf("%v", vector.ToBits(v.Out().Raw()...)),
+		)
 	}
 }
 
@@ -56,18 +61,4 @@ func (c *Cacher) Upd(out getlin.Binary) {
 
 func (c *Cacher) Vec(ind int) getlin.Vector {
 	return c.vec[ind]
-}
-
-func tobits(raw []bool) []int {
-	var bit []int
-
-	for _, x := range raw {
-		if x {
-			bit = append(bit, 1)
-		} else {
-			bit = append(bit, 0)
-		}
-	}
-
-	return bit
 }

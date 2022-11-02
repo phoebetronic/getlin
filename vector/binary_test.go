@@ -94,12 +94,12 @@ func Test_Vector_Binary_Maj(t *testing.T) {
 		t.Run(fmt.Sprintf("%03d", i), func(t *testing.T) {
 			var raw getlin.Binary
 			{
-				raw = newbin(tobool(tc.raw...)...)
+				raw = newbin(ToBool(tc.raw...)...)
 			}
 
 			var maj []int
 			{
-				maj = tobits(raw.Maj())
+				maj = ToBits(raw.Maj())
 			}
 
 			if !reflect.DeepEqual([]int{tc.maj}, maj) {
@@ -266,7 +266,7 @@ func Test_Vector_Binary_Spl(t *testing.T) {
 		t.Run(fmt.Sprintf("%03d", i), func(t *testing.T) {
 			var raw getlin.Binary
 			{
-				raw = newbin(tobool(tc.raw...)...)
+				raw = newbin(ToBool(tc.raw...)...)
 			}
 
 			var lef getlin.Binary
@@ -275,11 +275,11 @@ func Test_Vector_Binary_Spl(t *testing.T) {
 				lef, rig = raw.Spl(tc.ind)
 			}
 
-			if !reflect.DeepEqual(tobool(tc.lef...), lef.Raw()) {
-				t.Fatalf("lef\n\n%s\n", cmp.Diff(tobool(tc.lef...), lef.Raw()))
+			if !reflect.DeepEqual(ToBool(tc.lef...), lef.Raw()) {
+				t.Fatalf("lef\n\n%s\n", cmp.Diff(ToBool(tc.lef...), lef.Raw()))
 			}
-			if !reflect.DeepEqual(tobool(tc.rig...), rig.Raw()) {
-				t.Fatalf("rig\n\n%s\n", cmp.Diff(tobool(tc.rig...), rig.Raw()))
+			if !reflect.DeepEqual(ToBool(tc.rig...), rig.Raw()) {
+				t.Fatalf("rig\n\n%s\n", cmp.Diff(ToBool(tc.rig...), rig.Raw()))
 			}
 		})
 	}
@@ -451,12 +451,12 @@ func Test_Vector_Binary_Wei(t *testing.T) {
 		t.Run(fmt.Sprintf("%03d", i), func(t *testing.T) {
 			var raw getlin.Binary
 			{
-				raw = newbin(tobool(tc.raw...)...)
+				raw = newbin(ToBool(tc.raw...)...)
 			}
 
 			var wei float32
 			{
-				wei = raw.Wei(tobool(tc.bit)[0])
+				wei = raw.Wei(ToBool(tc.bit)[0])
 			}
 
 			if !reflect.DeepEqual(tc.wei, wei) {
@@ -464,33 +464,4 @@ func Test_Vector_Binary_Wei(t *testing.T) {
 			}
 		})
 	}
-}
-
-func tobits(raw ...bool) []int {
-	var bit []int
-
-	for _, x := range raw {
-		if x {
-			bit = append(bit, 1)
-		} else {
-			bit = append(bit, 0)
-		}
-	}
-
-	return bit
-}
-
-func tobool(lis ...int) []bool {
-	bol := []bool{}
-
-	for _, x := range lis {
-		if x == 0 {
-			bol = append(bol, false)
-		}
-		if x == 1 {
-			bol = append(bol, true)
-		}
-	}
-
-	return bol
 }
