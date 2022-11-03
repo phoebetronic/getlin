@@ -5,6 +5,7 @@ type Cacher interface {
 	Del()
 	Lat() Vector
 	Log()
+	Out(int) []Binary
 	Upd(Binary)
 	Vec(int) Vector
 }

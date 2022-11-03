@@ -14,32 +14,68 @@ func (m *Module) Update(vec getlin.Vector) {
 		m.search(vec)
 	}
 
+	// The Vector Status is exclusively being initialized once at the very start
+	// of the update process, regardless the depth and complexity of Module
+	// architectures. This is to track the actual success or failure of system
+	// performance during any given iteration. Success here means the predicted
+	// output Vector matches the provided true labels.
+	if !vec.Sta().Ini() {
+		if vec.Out().Eql(m.cac.Lat().Out()) {
+			vec.Sta().Upd(true)
+		} else {
+			vec.Sta().Upd(false)
+		}
+	}
+
 	var tru []bool
 	{
 		tru = vec.Out().Raw()
 	}
 
 	for i, x := range m.mpr.All() {
-		for _, y := range x {
-			// The true label range indices are used to create the desired
-			// output Vector for the next Module being updated. The output
-			// Vector we generate might be the scaled version of a single bit.
-			// That is, in nested architectures a whole Graphs Module may
-			// receive a single true label, which then has to be applied during
-			// feedback in any Module being part of its parent. The nested
-			// modules then may define multiple outputs themselves, which means
-			// that, the single true label received via its parent must be
-			// scaled to meet every nested Module's output requirements, in
-			// order for them to be updated.
-			var t [2]int
-			{
-				t = m.mpr.Tru(y)
+		for j, y := range x {
+			var out []bool
+			if vec.Sta().Suc() {
+				// In case of success, the true labels used for updating a
+				// Module are those that the Module itself predicted during
+				// inference earlier. This is the most specific kind of update
+				// that can happen, and it is likely the most rare one too.
+				{
+					out = m.cac.Out(i)[j].Raw()
+				}
+			} else {
+				// In case of failure, the true labels used for updating a
+				// Module are those that the original input Vector carries. The
+				// true label index range picks the correct partial of the true
+				// labels for the updating process.
+				var ind [2]int
+				{
+					ind = m.mpr.Tru(y)
+				}
+
+				var prt []bool
+				{
+					prt = tru[ind[0]:ind[1]]
+				}
+
+				// In case the true labels are picked in the scope of a Voting
+				// Module the single true bit has to be scaled to the output
+				// Vector length of the Module to be updated. For any other
+				// partial shapes the content negotiation assumes y to be a
+				// Linear Module which can receive the full true label partial
+				// as is.
+				if len(prt) == 1 {
+					out = vector.Repeat(prt, y.Shaper().Out())
+				} else {
+					out = prt
+				}
 			}
 
 			{
 				y.Update(vector.New(vector.Config{
 					Inp: m.cac.Vec(i).Inp().Raw(),
-					Out: vector.Repeat(tru[t[0]:t[1]], y.Shaper().Out()),
+					Out: out,
+					Sta: vec.Sta(),
 				}))
 			}
 		}

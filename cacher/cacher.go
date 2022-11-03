@@ -9,6 +9,7 @@ import (
 
 type Cacher struct {
 	ind int
+	out map[int][]getlin.Binary
 	vec map[int]getlin.Vector
 }
 
@@ -19,6 +20,7 @@ func New(con Config) *Cacher {
 
 	return &Cacher{
 		ind: -1,
+		out: map[int][]getlin.Binary{},
 		vec: map[int]getlin.Vector{},
 	}
 }
@@ -30,6 +32,7 @@ func (c *Cacher) Add(inp getlin.Binary) {
 
 func (c *Cacher) Del() {
 	c.ind = -1
+	c.out = map[int][]getlin.Binary{}
 	c.vec = map[int]getlin.Vector{}
 }
 
@@ -52,11 +55,27 @@ func (c *Cacher) Log() {
 	}
 }
 
+func (c *Cacher) Out(ind int) []getlin.Binary {
+	return c.out[ind]
+}
+
 func (c *Cacher) Upd(out getlin.Binary) {
-	c.vec[c.ind] = vector.New(vector.Config{
-		Inp: c.vec[c.ind].Inp().Raw(),
-		Out: out.Raw(),
-	})
+	var vec getlin.Vector
+	{
+		vec = c.vec[c.ind]
+	}
+
+	{
+		c.out[c.ind] = append(c.out[c.ind], out)
+	}
+
+	for _, x := range out.Raw() {
+		vec.Out().Add(x)
+	}
+
+	{
+		c.vec[c.ind] = vec
+	}
 }
 
 func (c *Cacher) Vec(ind int) getlin.Vector {
