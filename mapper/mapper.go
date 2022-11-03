@@ -2,6 +2,7 @@ package mapper
 
 import (
 	"github.com/phoebetron/getlin"
+	"github.com/phoebetron/getlin/vector"
 	"github.com/xh3b4sd/tracer"
 )
 
@@ -70,7 +71,7 @@ func New(con Config) *Mapper {
 
 			var tru [2]int
 			{
-				tru = matcht(lay, out, j)
+				tru = vector.Labels(lay, out, j)
 			}
 
 			if tru[1] == 0 {

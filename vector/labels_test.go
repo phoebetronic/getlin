@@ -1,4 +1,4 @@
-package mapper
+package vector
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-func Test_Mapper_matcht(t *testing.T) {
+func Test_Vector_Labels(t *testing.T) {
 	testCases := []struct {
 		lay []int
 		out int
@@ -381,7 +381,7 @@ func Test_Mapper_matcht(t *testing.T) {
 		t.Run(fmt.Sprintf("%03d", i), func(t *testing.T) {
 			var tru [2]int
 			{
-				tru = matcht(tc.lay, tc.out, tc.ind)
+				tru = Labels(tc.lay, tc.out, tc.ind)
 			}
 
 			if !reflect.DeepEqual(tru, tc.tru) {

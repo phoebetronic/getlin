@@ -17,6 +17,9 @@ type Vector interface {
 	// defined true labels. Otherwise the bits carried here are generated output
 	// vectors.
 	Out() Binary
+	// Sta returns status information of the current Vector. The Status
+	// primitives should not be touched by outside users.
+	Sta() Status
 }
 
 type Binary interface {
@@ -56,4 +59,20 @@ type Binary interface {
 	// Zer returns true in case the current vector contains only 0s and no 1s.
 	// If the current vector is empty, then Zer returns false.
 	Zer() bool
+}
+
+type Status interface {
+	// Fai expresses the current Vector to carry a failed match between true
+	// labels and predicted outputs.
+	Fai() bool
+	// Ini returns true in case the current Vector's status got initialized
+	// internally.
+	Ini() bool
+	// Suc expresses the current Vector to carry a successful match between true
+	// labels and predicted outputs.
+	Suc() bool
+	// Upd modifies the Vector's status based on the provided value. Calling
+	// Status.Upd(true) will cause Status.Suc to return true as well. The
+	// opposite does then apply to Status.Fai.
+	Upd(sta bool)
 }

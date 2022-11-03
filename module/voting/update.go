@@ -19,6 +19,7 @@ func (m *Module) Update(vec getlin.Vector) {
 		m.wei.Update(vector.New(vector.Config{
 			Inp: vec.Inp().Raw(),
 			Out: vector.Repeat(vec.Out().Raw(), m.wei.Shaper().Out()),
+			Sta: vec.Sta(),
 		}))
 	}
 }

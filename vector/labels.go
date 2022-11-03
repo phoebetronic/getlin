@@ -1,6 +1,8 @@
-package mapper
+package vector
 
-func matcht(lay []int, out int, ind int) [2]int {
+// Labels returns the true vector label index range, derived from out, relative
+// to the Module index position ind within the layer output Vector shapes lay.
+func Labels(lay []int, out int, ind int) [2]int {
 	if out == 1 {
 		return [2]int{0, 1}
 	}

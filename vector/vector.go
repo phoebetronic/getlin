@@ -5,9 +5,14 @@ import "github.com/phoebetron/getlin"
 type Vector struct {
 	inp *binary
 	out *binary
+	sta getlin.Status
 }
 
 func New(con Config) *Vector {
+	{
+		con = con.Ensure()
+	}
+
 	{
 		con.Verify()
 	}
@@ -15,6 +20,7 @@ func New(con Config) *Vector {
 	return &Vector{
 		inp: newbin(con.Inp...),
 		out: newbin(con.Out...),
+		sta: con.Sta,
 	}
 }
 
@@ -32,4 +38,8 @@ func (v *Vector) Inp() getlin.Binary {
 
 func (v *Vector) Out() getlin.Binary {
 	return v.out
+}
+
+func (v *Vector) Sta() getlin.Status {
+	return v.sta
 }
