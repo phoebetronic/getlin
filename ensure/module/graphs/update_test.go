@@ -340,6 +340,30 @@ func Test_Module_Graphs_Update_Labels_Linear(t *testing.T) {
 			mod: mo5,
 			upd: musvec([]int{0, 0, 1, 1}, []int{1, 1, 1, 1}),
 		},
+		// Case 4
+		{
+			vec: musvec([]int{1, 1, 1}, []int{0, 1, 0, 1, 0, 0, 1, 1}),
+			mod: mo7,
+			upd: musvec([]int{0, 0, 0, 1, 0, 0, 1, 0}, []int{1, 0}),
+		},
+		// Case 5
+		{
+			vec: musvec([]int{1, 1, 1}, []int{1, 0, 1, 0, 1, 1, 0, 0}),
+			mod: mo7,
+			upd: musvec([]int{0, 0, 0, 1, 0, 0, 1, 0}, []int{1, 1}),
+		},
+		// Case 6
+		{
+			vec: musvec([]int{1, 1, 1}, []int{0, 1, 0, 1, 0, 0, 1, 1}),
+			mod: mo8,
+			upd: musvec([]int{0, 0, 0, 1, 0, 0, 1, 0}, []int{0, 1}),
+		},
+		// Case 7
+		{
+			vec: musvec([]int{1, 1, 1}, []int{1, 0, 1, 0, 1, 1, 0, 0}),
+			mod: mo8,
+			upd: musvec([]int{0, 0, 0, 1, 0, 0, 1, 0}, []int{0, 0}),
+		},
 	}
 
 	for i, tc := range testCases {
