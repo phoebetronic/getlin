@@ -1,9 +1,6 @@
 package getlin
 
 type Module interface {
-	// Mapper is an internal data structure manager enabling Modules of complex
-	// architectures to be updated and rendered.
-	Mapper() Mapper
 	// Search is doing inference, computing an output Vector given an input
 	// Vector.
 	Search(Vector) Vector

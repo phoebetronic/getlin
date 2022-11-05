@@ -7,9 +7,6 @@ type Vector interface {
 	// Eql asserts whether the current and the provided Vectors are equal. That
 	// check verifies the values of carried bits and true labels respectively.
 	Eql(Vector) bool
-	// Ind returns the optional instruction of Module update paths at the root
-	// of a Graphs Module. See vector.Config for more information.
-	Ind() [][]bool
 	// Inp returns the binary interface implementation carrying the configured
 	// input bits. For any first call or iteration, this might be externally
 	// defined binary features. Otherwise the bits carried here are generated
@@ -20,9 +17,6 @@ type Vector interface {
 	// defined true labels. Otherwise the bits carried here are generated output
 	// Vectors.
 	Out() Binary
-	// Sta returns status information of the current Vector. The Status
-	// primitives should not be touched by outside users.
-	Sta() Status
 }
 
 type Binary interface {
@@ -63,20 +57,4 @@ type Binary interface {
 	// Zer returns true in case the current Vector contains only 0s and no 1s.
 	// If the current Vector is empty, then Zer returns false.
 	Zer() bool
-}
-
-type Status interface {
-	// Fai expresses the current Vector to carry a failed match between true
-	// labels and predicted outputs.
-	Fai() bool
-	// Ini returns true in case the current Vector's status got initialized
-	// internally.
-	Ini() bool
-	// Suc expresses the current Vector to carry a successful match between true
-	// labels and predicted outputs.
-	Suc() bool
-	// Upd modifies the Vector's status based on the provided value. Calling
-	// Status.Upd(true) will cause Status.Suc to return true as well. The
-	// opposite does then apply to Status.Fai.
-	Upd(sta bool)
 }
