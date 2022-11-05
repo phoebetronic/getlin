@@ -25,8 +25,8 @@ func (a *Automa) Add() {
 		a.poi += 1
 	}
 
-	if a.poi >= (2*a.sta)+1 {
-		a.poi = (2 * a.sta) + 1
+	if a.poi >= 2*a.sta {
+		a.poi = (2 * a.sta)
 	}
 }
 
@@ -35,8 +35,7 @@ func (a *Automa) Exc() bool {
 }
 
 func (a *Automa) Hig() bool {
-	x := (2 * a.sta) + 1
-	return a.poi >= x
+	return a.poi >= (2 * a.sta)
 }
 
 func (a *Automa) Inc() bool {
@@ -44,7 +43,7 @@ func (a *Automa) Inc() bool {
 }
 
 func (a *Automa) Low() bool {
-	return a.poi <= 0
+	return a.poi <= 1
 }
 
 func (a *Automa) Poi() int {
@@ -56,7 +55,7 @@ func (a *Automa) Red() {
 		a.poi -= 1
 	}
 
-	if a.poi <= 0 {
-		a.poi = 0
+	if a.poi <= 1 {
+		a.poi = 1
 	}
 }

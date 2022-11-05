@@ -149,10 +149,9 @@ func Test_Automa_Lifecycle(t *testing.T) {
 		// Case 8
 		{
 			set: func(a getlin.Automa) {
-				a.Add()
-				a.Add()
-				a.Add()
-				a.Add()
+				a.Add() // 5
+				a.Add() // 6
+				a.Add() // 7
 			},
 			sta: 4,
 			poi: 4,
@@ -164,11 +163,10 @@ func Test_Automa_Lifecycle(t *testing.T) {
 		// Case 9
 		{
 			set: func(a getlin.Automa) {
-				a.Add()
-				a.Add()
-				a.Add()
-				a.Add()
-				a.Add()
+				a.Add() // 5
+				a.Add() // 6
+				a.Add() // 7
+				a.Add() // 8
 			},
 			sta: 4,
 			poi: 4,
@@ -180,9 +178,24 @@ func Test_Automa_Lifecycle(t *testing.T) {
 		// Case 10
 		{
 			set: func(a getlin.Automa) {
-				a.Red()
-				a.Red()
-				a.Red()
+				a.Add() // 5
+				a.Add() // 6
+				a.Add() // 7
+				a.Add() // 8
+				a.Add() // 8
+			},
+			sta: 4,
+			poi: 4,
+			inc: true,
+			exc: false,
+			hig: true,
+			low: false,
+		},
+		// Case 11
+		{
+			set: func(a getlin.Automa) {
+				a.Red() // 3
+				a.Red() // 2
 			},
 			sta: 4,
 			poi: 4,
@@ -191,13 +204,12 @@ func Test_Automa_Lifecycle(t *testing.T) {
 			hig: false,
 			low: false,
 		},
-		// Case 11
+		// Case 12
 		{
 			set: func(a getlin.Automa) {
-				a.Red()
-				a.Red()
-				a.Red()
-				a.Red()
+				a.Red() // 3
+				a.Red() // 2
+				a.Red() // 1
 			},
 			sta: 4,
 			poi: 4,
@@ -206,23 +218,37 @@ func Test_Automa_Lifecycle(t *testing.T) {
 			hig: false,
 			low: true,
 		},
-		// Case 12
+		// Case 13
 		{
 			set: func(a getlin.Automa) {
-				a.Add()
-				a.Add()
-				a.Add()
-				a.Add()
-				a.Add()
-				a.Add()
-				a.Add()
-				a.Add()
-				a.Add()
+				a.Red() // 3
+				a.Red() // 2
+				a.Red() // 1
+				a.Red() // 1
+			},
+			sta: 4,
+			poi: 4,
+			inc: false,
+			exc: true,
+			hig: false,
+			low: true,
+		},
+		// Case 14
+		{
+			set: func(a getlin.Automa) {
+				a.Add() // 5
+				a.Add() // 6
+				a.Add() // 7
+				a.Add() // 8
+				a.Add() // 8
+				a.Add() // 8
+				a.Add() // 8
+				a.Add() // 8
+				a.Add() // 8
 
-				a.Red()
-				a.Red()
-				a.Red()
-				a.Red()
+				a.Red() // 7
+				a.Red() // 6
+				a.Red() // 5
 			},
 			sta: 4,
 			poi: 4,
@@ -231,24 +257,23 @@ func Test_Automa_Lifecycle(t *testing.T) {
 			hig: false,
 			low: false,
 		},
-		// Case 13
+		// Case 15
 		{
 			set: func(a getlin.Automa) {
-				a.Add()
-				a.Add()
-				a.Add()
-				a.Add()
-				a.Add()
-				a.Add()
-				a.Add()
-				a.Add()
-				a.Add()
+				a.Add() // 5
+				a.Add() // 6
+				a.Add() // 7
+				a.Add() // 8
+				a.Add() // 8
+				a.Add() // 8
+				a.Add() // 8
+				a.Add() // 8
+				a.Add() // 8
 
-				a.Red()
-				a.Red()
-				a.Red()
-				a.Red()
-				a.Red()
+				a.Red() // 7
+				a.Red() // 6
+				a.Red() // 5
+				a.Red() // 4
 			},
 			sta: 4,
 			poi: 4,

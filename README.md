@@ -31,10 +31,10 @@ given epoch.
 ```
 epo  1    mae 0.333    acc 0.667
 epo  2    mae 0.133    acc 0.867
-epo  3    mae 0.033    acc 0.967
+epo  3    mae 0.000    acc 1.000
 epo  4    mae 0.000    acc 1.000
-epo  5    mae 0.033    acc 0.967
-epo  6    mae 0.033    acc 0.967
+epo  5    mae 0.000    acc 1.000
+epo  6    mae 0.000    acc 1.000
 epo  7    mae 0.000    acc 1.000
 epo  8    mae 0.000    acc 1.000
 epo  9    mae 0.000    acc 1.000
@@ -59,10 +59,10 @@ epo  1    mae 0.267    acc 0.733
 epo  2    mae 0.233    acc 0.767
 epo  3    mae 0.233    acc 0.767
 epo  4    mae 0.167    acc 0.833
-epo  5    mae 0.033    acc 0.967
+epo  5    mae 0.067    acc 0.933
 epo  6    mae 0.033    acc 0.967
-epo  7    mae 0.033    acc 0.967
-epo  8    mae 0.033    acc 0.967
+epo  7    mae 0.067    acc 0.933
+epo  8    mae 0.000    acc 1.000
 epo  9    mae 0.000    acc 1.000
 epo 10    mae 0.000    acc 1.000
 ```
