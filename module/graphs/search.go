@@ -29,12 +29,12 @@ func (m *Module) search(vec getlin.Vector) getlin.Vector {
 			m.cac.Add(vec.Inp())
 		}
 
-		// Every layer x is comprised of modules which all receive the same
+		// Every layer x is comprised of Modules which all receive the same
 		// input of the preceeding layer. In case of the very first layer, this
 		// input is the original input Vector received during the call to
 		// Module.Search. The search results of each layer x are concatenated so
-		// that a consistent result of layer output vectors can be forwarded to
-		// the next layer of modules. Below the Cacher collects the Module
+		// that a consistent result of layer output Vectors can be forwarded to
+		// the next layer of Modules. Below the Cacher collects the Module
 		// search results for the whole layer currently being processed.
 		for _, y := range x {
 			m.cac.Upd(y.Search(m.cac.Lat()).Out())
@@ -42,7 +42,7 @@ func (m *Module) search(vec getlin.Vector) getlin.Vector {
 
 		// The latest output Vector is now the complete concatenated bit array
 		// produced by each and every Module of layer x. That output becomes the
-		// input for the next iteration feeding into all of the modules within
+		// input for the next iteration feeding into all of the Modules within
 		// the following layer.
 		{
 			vec = vector.New(vector.Config{Inp: m.cac.Lat().Out().Raw()})

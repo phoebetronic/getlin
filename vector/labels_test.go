@@ -375,6 +375,14 @@ func Test_Vector_Labels(t *testing.T) {
 			ind: 2,
 			tru: [2]int{0, 0},
 		},
+
+		// Case 49
+		{
+			lay: []int{100},
+			out: 10,
+			ind: 0,
+			tru: [2]int{0, 0},
+		},
 	}
 
 	for i, tc := range testCases {

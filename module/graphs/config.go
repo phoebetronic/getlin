@@ -3,7 +3,7 @@ package graphs
 import "github.com/phoebetron/getlin"
 
 type Config struct {
-	// Mpr manages the graph of modules representing this Graphs Module's
+	// Mpr manages the graph of Modules representing this Graphs Module's
 	// architecture. See mapper.Config for structural requirements.
 	Mpr getlin.Mapper
 }

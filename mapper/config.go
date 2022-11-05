@@ -10,16 +10,16 @@ type Config struct {
 	// raised indicate an invalids setting for the graph architecture. Err is
 	// mainly used for testing.
 	Err func(error)
-	// Mod represents the graph of modules to be mapped. The mapper validates
+	// Mod represents the graph of Modules to be mapped. The mapper validates
 	// the graph structure and provides lookup primitives of associative
-	// features inherent to the modules comprising any given architecture.
+	// features inherent to the Modules comprising any given architecture.
 	// Information like Module relationships across layers and true label index
 	// ranges per Module can be accessed using a successfully generated mapping.
 	// Two requirements restrict the graph composition upon instantiation.
 	//
 	//     1. All layers must produce the same cumulative output Vector length.
 	//
-	//     2. All modules must receive an input Vector of length compatible with
+	//     2. All Modules must receive an input Vector of length compatible with
 	//     the cumulative output Vector length produced by their preceding
 	//     layers.
 	//

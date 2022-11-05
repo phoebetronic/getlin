@@ -1,7 +1,7 @@
 package getlin
 
 type Mapper interface {
-	// Abo returns the list of modules within the previous layer relative to the
+	// Abo returns the list of Modules within the previous layer relative to the
 	// given module. Consider Module M1 and Module M2 in the first layer and
 	// Module M3 in the second layer. Calling Abo(M3) returns M1 and M2.
 	//
@@ -11,7 +11,7 @@ type Mapper interface {
 	//     ]
 	//
 	Abo(Module) []Module
-	// All returns the hierarchical list of modules as configured in this Mapper.
+	// All returns the hierarchical list of Modules as configured in this Mapper.
 	//
 	//     [
 	//         [ M1  M2 ]
@@ -19,7 +19,7 @@ type Mapper interface {
 	//     ]
 	//
 	All() [][]Module
-	// Bel returns the list of modules within the next layer relative to the
+	// Bel returns the list of Modules within the next layer relative to the
 	// given module. Consider Module M1 and Module M2 in the first layer and
 	// Module M3 in the second layer. Calling Bel(M2) returns M3.
 	//
@@ -49,6 +49,8 @@ type Mapper interface {
 	//     ]
 	//
 	Lay(Module) int
+	// Spl ...
+	Spl([][]bool) [][]Module
 	// Tru returns the true label index range in the form of two integer
 	// boundaries for the given Module, e.g. [3 7]. Consider Module M1 and
 	// Module M2 in the first layer and Module M3 in the second layer. M1 and M2

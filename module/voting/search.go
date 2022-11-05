@@ -6,18 +6,25 @@ import (
 )
 
 func (m *Module) Search(vec getlin.Vector) getlin.Vector {
-	if m.wei == nil {
-		return vector.New(vector.Config{Out: []bool{vec.Inp().Maj()}})
+	if m.voting(vec.Inp().Raw()) >= 0 {
+		return vector.New(vector.Config{Out: []uint8{1}})
+	} else {
+		return vector.New(vector.Config{Out: []uint8{0}})
+	}
+}
+
+func (m *Module) voting(fea []uint8) float32 {
+	var out float32
+
+	// All even Clauses have positive voting rights. Each of them may vote +1.
+	for i := 0; i < len(m.cla); i += 2 {
+		out += float32(m.cla[i].Output(fea))
 	}
 
-	// The positive input Vector bits have to cross the threshold learned by the
-	// weights Module. If it does, the vote is true. Reinforcement of true
-	// patterns will keep the threshold high, while reinforcement of false
-	// patterns will help find a balance. In case a pattern cannot reach the
-	// required threshold, the vote is false.
-	if vec.Inp().Wei(true) > m.wei.Search(vec).Out().Wei(true) {
-		return vector.New(vector.Config{Out: []bool{true}})
+	// All uneven Clauses have negative voting rights. Each of them may vote -1.
+	for i := 1; i < len(m.cla); i += 2 {
+		out -= float32(m.cla[i].Output(fea))
 	}
 
-	return vector.New(vector.Config{Out: []bool{false}})
+	return out
 }

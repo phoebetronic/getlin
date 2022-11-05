@@ -4,19 +4,17 @@ type Module interface {
 	// Mapper is an internal data structure manager enabling Modules of complex
 	// architectures to be updated and rendered.
 	Mapper() Mapper
-	// Metric returns the metric object carried or constructured by this Module.
-	// Tracking of runtime data is specific to each Module implementation.
-	Metric() Metric
-	// Search is doing inference, computing an output vector given an input
-	// vector.
+	// Search is doing inference, computing an output Vector given an input
+	// Vector.
 	Search(Vector) Vector
 	// Shaper returns the shape specification of this Module.
 	Shaper() Shaper
-	// States returns the internal state pointers of this Module's TAs as a
-	// single list. States may origin from different clauses, which in turn
-	// provide their states in different polarities.
-	States() []float32
-	// Update uses the given vector's true labels for improving all underlying
+	// Update uses the given Vector's true labels for improving all underlying
 	// Automa states.
 	Update(Vector)
+	// Verify returns metrics about the runtime performance given a batch of
+	// test Vectors. A batch may be a list of 64 sample pairs, of which the
+	// first item, index 0, is the negative class and the second item, index 1,
+	// is the positive class.
+	Verify([][2]Vector) Metric
 }

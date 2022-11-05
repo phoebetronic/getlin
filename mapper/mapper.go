@@ -141,6 +141,28 @@ func (m *Mapper) Lay(mod getlin.Module) int {
 	return m.lin[mod].Lay
 }
 
+func (m *Mapper) Spl(ind [][]bool) [][]getlin.Module {
+	var mod [][]getlin.Module
+
+	for i, x := range ind {
+		var spl []getlin.Module
+
+		for j, y := range x {
+			if y {
+				spl = append(spl, m.mod[i][j])
+			} else {
+				spl = append(spl, nil)
+			}
+		}
+
+		{
+			mod = append(mod, spl)
+		}
+	}
+
+	return mod
+}
+
 func (m *Mapper) Tru(mod getlin.Module) [2]int {
 	return m.lin[mod].Tru
 }

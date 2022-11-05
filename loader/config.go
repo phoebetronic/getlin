@@ -1,9 +1,18 @@
 package loader
 
 type Config struct {
+	Bas string
 	Git bool
 	Org string
 	Rep string
+}
+
+func (c Config) Ensure() Config {
+	if c.Bas == "" {
+		c.Bas = "."
+	}
+
+	return c
 }
 
 func (c Config) Verify() {

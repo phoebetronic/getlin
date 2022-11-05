@@ -11,8 +11,8 @@ import (
 
 func Test_Vector_Binary_Maj(t *testing.T) {
 	testCases := []struct {
-		raw []int
-		maj int
+		raw []uint8
+		maj uint8
 	}{
 		// Case 0
 		{
@@ -21,14 +21,14 @@ func Test_Vector_Binary_Maj(t *testing.T) {
 		},
 		// Case 1
 		{
-			raw: []int{
+			raw: []uint8{
 				0,
 			},
 			maj: 0,
 		},
 		// Case 2
 		{
-			raw: []int{
+			raw: []uint8{
 				0,
 				0,
 				0,
@@ -37,7 +37,7 @@ func Test_Vector_Binary_Maj(t *testing.T) {
 		},
 		// Case 3
 		{
-			raw: []int{
+			raw: []uint8{
 				0,
 				0,
 				1,
@@ -47,7 +47,7 @@ func Test_Vector_Binary_Maj(t *testing.T) {
 		},
 		// Case 4
 		{
-			raw: []int{
+			raw: []uint8{
 				0,
 				0,
 				1,
@@ -59,7 +59,7 @@ func Test_Vector_Binary_Maj(t *testing.T) {
 		},
 		// Case 5
 		{
-			raw: []int{
+			raw: []uint8{
 				0,
 				1,
 				0,
@@ -72,7 +72,7 @@ func Test_Vector_Binary_Maj(t *testing.T) {
 		},
 		// Case 6
 		{
-			raw: []int{
+			raw: []uint8{
 				0,
 				1,
 				1,
@@ -83,7 +83,7 @@ func Test_Vector_Binary_Maj(t *testing.T) {
 		},
 		// Case 7
 		{
-			raw: []int{
+			raw: []uint8{
 				1,
 			},
 			maj: 1,
@@ -94,192 +94,16 @@ func Test_Vector_Binary_Maj(t *testing.T) {
 		t.Run(fmt.Sprintf("%03d", i), func(t *testing.T) {
 			var raw getlin.Binary
 			{
-				raw = newbin(ToBool(tc.raw...)...)
+				raw = newbin(tc.raw...)
 			}
 
-			var maj []int
+			var maj uint8
 			{
-				maj = ToBits(raw.Maj())
+				maj = raw.Maj()
 			}
 
-			if !reflect.DeepEqual([]int{tc.maj}, maj) {
-				t.Fatalf("maj\n\n%s\n", cmp.Diff([]int{tc.maj}, maj))
-			}
-		})
-	}
-}
-
-func Test_Vector_Binary_Spl(t *testing.T) {
-	testCases := []struct {
-		raw []int
-		ind int
-		lef []int
-		rig []int
-	}{
-		// Case 0
-		{
-			raw: nil,
-			ind: 0,
-			lef: []int{},
-			rig: []int{},
-		},
-		// Case 1
-		{
-			raw: []int{
-				0,
-				0,
-				1,
-				0,
-				1,
-			},
-			ind: 0,
-			lef: []int{},
-			rig: []int{
-				0,
-				0,
-				1,
-				0,
-				1,
-			},
-		},
-		// Case 2
-		{
-			raw: []int{
-				0,
-				0,
-				1,
-				0,
-				1,
-			},
-			ind: 1,
-			lef: []int{
-				0,
-			},
-			rig: []int{
-				0,
-				1,
-				0,
-				1,
-			},
-		},
-		// Case 3
-		{
-			raw: []int{
-				0,
-				0,
-				1,
-				0,
-				1,
-			},
-			ind: 2,
-			lef: []int{
-				0,
-				0,
-			},
-			rig: []int{
-				1,
-				0,
-				1,
-			},
-		},
-		// Case 4
-		{
-			raw: []int{
-				0,
-				0,
-				1,
-				0,
-				1,
-			},
-			ind: 3,
-			lef: []int{
-				0,
-				0,
-				1,
-			},
-			rig: []int{
-				0,
-				1,
-			},
-		},
-		// Case 5
-		{
-			raw: []int{
-				0,
-				0,
-				1,
-				0,
-				1,
-			},
-			ind: 4,
-			lef: []int{
-				0,
-				0,
-				1,
-				0,
-			},
-			rig: []int{
-				1,
-			},
-		},
-		// Case 6
-		{
-			raw: []int{
-				0,
-				0,
-				1,
-				0,
-				1,
-			},
-			ind: 5,
-			lef: []int{
-				0,
-				0,
-				1,
-				0,
-				1,
-			},
-			rig: nil,
-		},
-		// Case 7
-		{
-			raw: []int{
-				0,
-				0,
-				1,
-				0,
-				1,
-			},
-			ind: 6,
-			lef: []int{
-				0,
-				0,
-				1,
-				0,
-				1,
-			},
-			rig: nil,
-		},
-	}
-
-	for i, tc := range testCases {
-		t.Run(fmt.Sprintf("%03d", i), func(t *testing.T) {
-			var raw getlin.Binary
-			{
-				raw = newbin(ToBool(tc.raw...)...)
-			}
-
-			var lef getlin.Binary
-			var rig getlin.Binary
-			{
-				lef, rig = raw.Spl(tc.ind)
-			}
-
-			if !reflect.DeepEqual(ToBool(tc.lef...), lef.Raw()) {
-				t.Fatalf("lef\n\n%s\n", cmp.Diff(ToBool(tc.lef...), lef.Raw()))
-			}
-			if !reflect.DeepEqual(ToBool(tc.rig...), rig.Raw()) {
-				t.Fatalf("rig\n\n%s\n", cmp.Diff(ToBool(tc.rig...), rig.Raw()))
+			if !reflect.DeepEqual(tc.maj, maj) {
+				t.Fatalf("maj\n\n%s\n", cmp.Diff(tc.maj, maj))
 			}
 		})
 	}
@@ -287,13 +111,13 @@ func Test_Vector_Binary_Spl(t *testing.T) {
 
 func Test_Vector_Binary_Wei(t *testing.T) {
 	testCases := []struct {
-		raw []int
-		bit int
+		raw []uint8
+		bit uint8
 		wei float32
 	}{
 		// Case 0
 		{
-			raw: []int{
+			raw: []uint8{
 				0,
 			},
 			bit: 0,
@@ -301,7 +125,7 @@ func Test_Vector_Binary_Wei(t *testing.T) {
 		},
 		// Case 1
 		{
-			raw: []int{
+			raw: []uint8{
 				0,
 			},
 			bit: 1,
@@ -309,7 +133,7 @@ func Test_Vector_Binary_Wei(t *testing.T) {
 		},
 		// Case 2
 		{
-			raw: []int{
+			raw: []uint8{
 				0,
 				0,
 				0,
@@ -319,7 +143,7 @@ func Test_Vector_Binary_Wei(t *testing.T) {
 		},
 		// Case 3
 		{
-			raw: []int{
+			raw: []uint8{
 				0,
 				0,
 				0,
@@ -329,7 +153,7 @@ func Test_Vector_Binary_Wei(t *testing.T) {
 		},
 		// Case 4
 		{
-			raw: []int{
+			raw: []uint8{
 				1,
 			},
 			bit: 0,
@@ -337,7 +161,7 @@ func Test_Vector_Binary_Wei(t *testing.T) {
 		},
 		// Case 5
 		{
-			raw: []int{
+			raw: []uint8{
 				1,
 			},
 			bit: 1,
@@ -345,7 +169,7 @@ func Test_Vector_Binary_Wei(t *testing.T) {
 		},
 		// Case 6
 		{
-			raw: []int{
+			raw: []uint8{
 				1,
 				1,
 				1,
@@ -355,7 +179,7 @@ func Test_Vector_Binary_Wei(t *testing.T) {
 		},
 		// Case 7
 		{
-			raw: []int{
+			raw: []uint8{
 				1,
 				1,
 				1,
@@ -365,7 +189,7 @@ func Test_Vector_Binary_Wei(t *testing.T) {
 		},
 		// Case 8
 		{
-			raw: []int{
+			raw: []uint8{
 				0,
 				1,
 				0,
@@ -381,7 +205,7 @@ func Test_Vector_Binary_Wei(t *testing.T) {
 		},
 		// Case 9
 		{
-			raw: []int{
+			raw: []uint8{
 				0,
 				1,
 				0,
@@ -397,7 +221,7 @@ func Test_Vector_Binary_Wei(t *testing.T) {
 		},
 		// Case 10
 		{
-			raw: []int{
+			raw: []uint8{
 				1,
 				1,
 				1,
@@ -422,7 +246,7 @@ func Test_Vector_Binary_Wei(t *testing.T) {
 		},
 		// Case 11
 		{
-			raw: []int{
+			raw: []uint8{
 				1,
 				1,
 				1,
@@ -451,12 +275,12 @@ func Test_Vector_Binary_Wei(t *testing.T) {
 		t.Run(fmt.Sprintf("%03d", i), func(t *testing.T) {
 			var raw getlin.Binary
 			{
-				raw = newbin(ToBool(tc.raw...)...)
+				raw = newbin(tc.raw...)
 			}
 
 			var wei float32
 			{
-				wei = raw.Wei(ToBool(tc.bit)[0])
+				wei = raw.Wei(tc.bit)
 			}
 
 			if !reflect.DeepEqual(tc.wei, wei) {

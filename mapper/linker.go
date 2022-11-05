@@ -3,9 +3,9 @@ package mapper
 import "github.com/phoebetron/getlin"
 
 type Linker struct {
-	// Abo contains all modules within the previous layer.
+	// Abo contains all Modules within the previous layer.
 	Abo []getlin.Module
-	// Bel contains all modules within the next layer.
+	// Bel contains all Modules within the next layer.
 	Bel []getlin.Module
 	// Ind is the index of this Linker's Module within the current graph.
 	Ind int

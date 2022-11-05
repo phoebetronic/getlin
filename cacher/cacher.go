@@ -49,8 +49,8 @@ func (c *Cacher) Log() {
 		fmt.Printf(
 			"%4d %15s %15s\n",
 			k,
-			fmt.Sprintf("%v", vector.ToBits(v.Inp().Raw()...)),
-			fmt.Sprintf("%v", vector.ToBits(v.Out().Raw()...)),
+			fmt.Sprintf("%v", v.Inp().Raw()),
+			fmt.Sprintf("%v", v.Out().Raw()),
 		)
 	}
 }

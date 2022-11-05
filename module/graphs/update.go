@@ -1,13 +1,15 @@
 package graphs
 
 import (
+	"bytes"
+
 	"github.com/phoebetron/getlin"
 	"github.com/phoebetron/getlin/vector"
 )
 
 func (m *Module) Update(vec getlin.Vector) {
 	// Inference is required for updating the Graphs Module. The internal search
-	// goes through all modules of all layers, filling the internal vector cache
+	// goes through all Modules of all layers, filling the internal vector cache
 	// so that we know on which level we produce which input and which output
 	// given the current state of the system.
 	{
@@ -27,14 +29,25 @@ func (m *Module) Update(vec getlin.Vector) {
 		}
 	}
 
-	var tru []bool
+	var tru []uint8
 	{
 		tru = vec.Out().Raw()
 	}
 
-	for i, x := range m.mpr.All() {
+	var mod [][]getlin.Module
+	if vec.Ind() == nil {
+		mod = m.mpr.All()
+	} else {
+		mod = m.mpr.Spl(vec.Ind())
+	}
+
+	for i, x := range mod {
 		for j, y := range x {
-			var out []bool
+			if y == nil {
+				continue
+			}
+
+			var out []uint8
 			if vec.Sta().Suc() {
 				// In case of success, the true labels used for updating a
 				// Module are those that the Module itself predicted during
@@ -53,7 +66,7 @@ func (m *Module) Update(vec getlin.Vector) {
 					ind = m.mpr.Tru(y)
 				}
 
-				var prt []bool
+				var prt []uint8
 				{
 					prt = tru[ind[0]:ind[1]]
 				}
@@ -65,7 +78,7 @@ func (m *Module) Update(vec getlin.Vector) {
 				// Linear Module which can receive the full true label partial
 				// as is.
 				if len(prt) == 1 {
-					out = vector.Repeat(prt, y.Shaper().Out())
+					out = bytes.Repeat(prt, y.Shaper().Out())
 				} else {
 					out = prt
 				}

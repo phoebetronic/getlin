@@ -3,17 +3,13 @@ package clause
 import (
 	"github.com/phoebetron/getlin"
 	"github.com/phoebetron/getlin/automa"
-	"github.com/phoebetron/getlin/serial"
 )
 
 type Clause struct {
-	act getlin.Active
-	met getlin.Metric
-	ran getlin.Random
-	ser serial.Interface
-
+	fre float32
 	neg []getlin.Automa
 	pos []getlin.Automa
+	ran getlin.Random
 }
 
 func New(con Config) *Clause {
@@ -29,12 +25,23 @@ func New(con Config) *Clause {
 	}
 
 	return &Clause{
-		act: con.Act,
-		met: con.Met,
-		ran: con.Ran,
-		ser: con.Ser,
-
+		fre: con.Fre,
 		neg: neg,
 		pos: pos,
+		ran: con.Ran,
 	}
+}
+
+func (c *Clause) States() ([]int, []int) {
+	var neg []int
+	for _, x := range c.neg {
+		neg = append(neg, x.Poi())
+	}
+
+	var pos []int
+	for _, x := range c.pos {
+		pos = append(pos, x.Poi())
+	}
+
+	return neg, pos
 }
