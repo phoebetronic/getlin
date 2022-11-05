@@ -8,7 +8,7 @@ type Config struct {
 	Poi int
 	// Sta is the number of states S along a single side of the states
 	// distribution, where the final states distribution will be 2 * S. Below is
-	// illustrated a state distribution 8 = S = 4.
+	// illustrated a state distribution 8 = 2 * S = 4.
 	//
 	//     1    2    3    4    |    5    6    7    8
 	//
