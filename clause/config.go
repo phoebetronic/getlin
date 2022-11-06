@@ -1,22 +1,19 @@
 package clause
 
-import (
-	"github.com/phoebetron/getlin"
-	"github.com/phoebetron/getlin/serial"
-)
+import "github.com/phoebetron/getlin"
 
 type Config struct {
-	// Act is an activation function used for stochastic feedback activation.
-	Act getlin.Active
-	// Met is the telemetric like object recording statistical information about
-	// the Clause's runtime behaviour.
-	Met getlin.Metric
-	// Ran provides randomization primitives for guaranteeing stochastic
-	// properties of the internal feedback mechanisms.
+	// Fre is the probability used to calculate the feedback frequency in two
+	// different ways, namely high and low. Consider the following rules for Fre
+	// being set to 0.1.
+	//
+	//    The low frequency updates happen with a probability of 0.1.
+	//
+	//    The high frequency updates happen with a probability of 1 - 0.1.
+	//
+	Fre float32
+	// Ran provides randomization primitives for applying stochastic feedback.
 	Ran getlin.Random
-	// Ser is a serialization method enabling the Clause to be stored and
-	// loaded. Algorithms for JSON or Protocl Buffers may be used here.
-	Ser serial.Interface
 	// Sta is the number of states S along a single side of the states
 	// distribution, where the final states distribution will be (2 * S) + 1.
 	// Below is illustrated a state distribution 9 = S = 4.
@@ -35,8 +32,8 @@ type Config struct {
 	//
 	Sta int
 	// Tas is the number of Tsetlin Automata (TAs) managed by the Clause. This
-	// is the number of binary features of the desired input vectors to train.
-	// That is, input vectors represented with 4 bits require 4 TAs, e.g. 0110.
+	// is the number of binary features of the desired input Vectors to train.
+	// That is, input Vectors represented with 4 bits require 4 TAs, e.g. 0110.
 	// In the standard implementation the total amount of TAs managed by the
 	// Clause is 2 * Tas. That is, one set for the positive polarity and one set
 	// for the negative polarity. Below is illustrated a TA Array 8 = Tas = 4.
@@ -62,18 +59,12 @@ type Config struct {
 }
 
 func (c Config) Verify() {
-	if c.Act == nil {
-		panic("Config.Act must not be empty")
-	}
-	if c.Met == nil {
-		panic("Config.Met must not be empty")
+	if c.Fre == 0 {
+		panic("Config.Fre must not be empty")
 	}
 	if c.Ran == nil {
 		panic("Config.Ran must not be empty")
 	}
-	// if c.Ser == nil {
-	// 	panic("Config.Ser must not be empty")
-	// }
 	if c.Sta == 0 {
 		panic("Config.Sta must not be empty")
 	}

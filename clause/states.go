@@ -1,15 +1,15 @@
 package clause
 
-func (c *Clause) States() []float32 {
-	var sta []float32
-
+func (c *Clause) States() ([]int, []int) {
+	var neg []int
 	for _, x := range c.neg {
-		sta = append(sta, x.Poi())
+		neg = append(neg, x.Poi())
 	}
 
+	var pos []int
 	for _, x := range c.pos {
-		sta = append(sta, x.Poi())
+		pos = append(pos, x.Poi())
 	}
 
-	return sta
+	return neg, pos
 }

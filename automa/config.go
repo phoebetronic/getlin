@@ -1,13 +1,26 @@
 package automa
 
+import "math/rand"
+
 type Config struct {
+	// Poi provides the option to initialize the internal state pointer to the
+	// value given here. For now this is mostly used for testing.
+	Poi int
 	// Sta is the number of states S along a single side of the states
-	// distribution, where the final states distribution will be (2 * S) + 1.
-	// Below is illustrated a state distribution 9 = S = 4.
+	// distribution, where the final states distribution will be 2 * S. Below is
+	// illustrated a state distribution 8 = 2 * S = 4.
 	//
-	//     -    S    3    2    1    0    1    2    3    S    +
+	//     1    2    3    4    |    5    6    7    8
 	//
 	Sta int
+}
+
+func (c Config) Ensure() Config {
+	if c.Poi == 0 {
+		c.Poi = rand.Intn(c.Sta+1-c.Sta+1) + c.Sta // TODO configure real random
+	}
+
+	return c
 }
 
 func (c Config) Verify() {

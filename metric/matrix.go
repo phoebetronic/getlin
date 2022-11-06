@@ -21,10 +21,6 @@ func (m *matrix) Mae() float32 {
 	return float32(m.dat[FP]+m.dat[FN]) / float32(m.dat[TP]+m.dat[TN]+m.dat[FP]+m.dat[FN])
 }
 
-func (m *matrix) Ppv() float32 {
-	return float32(m.dat[TP]) / float32(m.dat[TP]+m.dat[FP])
-}
-
 func (m *matrix) Raw() [4]int {
 	return m.dat
 }

@@ -27,11 +27,6 @@ type Matrix interface {
 	//     (FP + FN) / (TP + TN + FP + FN)
 	//
 	Mae() float32
-	// Ppv returns the precision currently recorded by this confusion matrix.
-	//
-	//     TP / (TP + FP)
-	//
-	Ppv() float32
 	// Raw returns the currently recorded list of raw confusion matrix states.
 	Raw() [4]int
 }

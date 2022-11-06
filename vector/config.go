@@ -1,20 +1,12 @@
 package vector
 
-import "github.com/phoebetron/getlin"
-
 type Config struct {
-	Inp []bool
-	Out []bool
-	Sta getlin.Status
+	// Inp carries the input bits consumed by any given Module, be it inference
+	// or training.
+	Inp []uint8
+	// Out provides either the externally defined true labels or carries the
+	// predicted labels.
+	Out []uint8
 }
 
-func (c Config) Ensure() Config {
-	if c.Sta == nil {
-		c.Sta = &Status{}
-	}
-
-	return c
-}
-
-func (c Config) Verify() {
-}
+func (c Config) Verify() {}
