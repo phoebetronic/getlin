@@ -26,7 +26,7 @@ func Test_Module_Voting_Binary_Class0(t *testing.T) {
 	var mod getlin.Module
 	{
 		mod = voting.New(voting.Config{
-			Cla: 32,
+			Cla: 64,
 			Fre: 0.1,
 			Inp: 4,
 			Ran: native.New(native.Config{}),
@@ -36,7 +36,7 @@ func Test_Module_Voting_Binary_Class0(t *testing.T) {
 	}
 
 	var met getlin.Metric
-	for i := 1; i <= 10; i++ {
+	for i := 1; i <= 5; i++ {
 		var bat map[int][][2]getlin.Vector
 		{
 			bat = ldr.Search()
@@ -75,18 +75,18 @@ func Test_Module_Voting_Binary_Class0(t *testing.T) {
 	{
 		fmt.Printf(
 			"The test data defines %v to be %b, which the Module confirms with %b.\n",
-			bat[cl0][6][0].Inp().Raw(),
-			bat[cl0][6][0].Out().Raw()[0],
-			mod.Search(bat[cl0][6][0]).Out().Raw()[0],
+			bat[cl0][9][0].Inp().Raw(),
+			bat[cl0][9][0].Out().Raw()[0],
+			mod.Search(bat[cl0][9][0]).Out().Raw()[0],
 		)
 	}
 
 	{
 		fmt.Printf(
 			"The test data defines %v to be %b, which the Module confirms with %b.\n",
-			bat[cl0][6][1].Inp().Raw(),
-			bat[cl0][6][1].Out().Raw()[0],
-			mod.Search(bat[cl0][6][1]).Out().Raw()[0],
+			bat[cl0][9][1].Inp().Raw(),
+			bat[cl0][9][1].Out().Raw()[0],
+			mod.Search(bat[cl0][9][1]).Out().Raw()[0],
 		)
 	}
 
