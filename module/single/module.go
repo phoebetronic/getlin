@@ -34,19 +34,15 @@ func New(con Config) *Module {
 		}))
 	}
 
-	var inp int
-	var out int
-	var sta int
-	{
-		inp = con.Inp
-		out = con.Cla
-		sta = (2 * con.Inp) * con.Cla
-	}
-
 	return &Module{
 		cla: cla,
 		ran: con.Ran,
-		sha: shaper.New(shaper.Config{Inp: inp, Out: out, Sta: sta}),
+		sha: shaper.New(shaper.Config{
+			Cla: con.Cla,
+			Inp: con.Inp,
+			Out: 1,
+			Sta: (2 * con.Inp) * con.Cla,
+		}),
 		thr: float32(con.Thr),
 	}
 }

@@ -1,4 +1,4 @@
-package render
+package single
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ import (
 	"github.com/phoebetron/getlin/random/native"
 )
 
-func Test_Module_Voting_Binary_Class1(t *testing.T) {
+func Test_Module_Single_Binary_Class0(t *testing.T) {
 	{
 		rand.Seed(1)
 	}
@@ -42,7 +42,7 @@ func Test_Module_Voting_Binary_Class1(t *testing.T) {
 
 		var ver [][2]getlin.Vector
 		for _, x := range bat {
-			if x[0].Cla() == 1 {
+			if x[0].Cla() == 0 {
 				{
 					mod.Update(x[0])
 					mod.Update(x[1])
@@ -81,19 +81,19 @@ func Test_Module_Voting_Binary_Class1(t *testing.T) {
 
 	{
 		fmt.Printf(
-			"The test data defines %v to be %b, which the Module confirms with %b.\n",
-			bat[21][0].Inp().Raw(),
-			bat[21][0].Out().Raw()[0],
-			mod.Search(bat[21][0]).Out().Raw()[0],
+			"The test data defines %b to be %b, which the Module confirms with %b.\n",
+			bat[9][0].Inp().Raw(),
+			bat[9][0].Out().Raw(),
+			mod.Search(bat[9][0]).Out().Raw(),
 		)
 	}
 
 	{
 		fmt.Printf(
-			"The test data defines %v to be %b, which the Module confirms with %b.\n",
-			bat[21][1].Inp().Raw(),
-			bat[21][1].Out().Raw()[0],
-			mod.Search(bat[21][1]).Out().Raw()[0],
+			"The test data defines %b to be %b, which the Module confirms with %b.\n",
+			bat[9][1].Inp().Raw(),
+			bat[9][1].Out().Raw(),
+			mod.Search(bat[9][1]).Out().Raw(),
 		)
 	}
 
