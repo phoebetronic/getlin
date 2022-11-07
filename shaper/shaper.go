@@ -1,6 +1,7 @@
 package shaper
 
 type Shaper struct {
+	cla int
 	inp int
 	out int
 	sta int
@@ -12,10 +13,15 @@ func New(con Config) *Shaper {
 	}
 
 	return &Shaper{
+		cla: con.Cla,
 		inp: con.Inp,
 		out: con.Out,
 		sta: con.Sta,
 	}
+}
+
+func (s *Shaper) Cla() int {
+	return s.cla
 }
 
 func (s *Shaper) Inp() int {
