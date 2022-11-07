@@ -1,4 +1,4 @@
-package voting
+package single
 
 import (
 	"github.com/phoebetron/getlin"

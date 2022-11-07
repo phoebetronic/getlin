@@ -1,4 +1,4 @@
-package voting
+package single
 
 import (
 	"github.com/phoebetron/getlin"
@@ -13,17 +13,17 @@ func (m *Module) Search(vec getlin.Vector) getlin.Vector {
 	}
 }
 
-func (m *Module) voting(fea []uint8) float32 {
-	var out float32
+func (m *Module) voting(fea []uint8) int {
+	var out int
 
 	// All even Clauses have positive voting rights. Each of them may vote +1.
 	for i := 0; i < len(m.cla); i += 2 {
-		out += float32(m.cla[i].Output(fea))
+		out += int(m.cla[i].Output(fea))
 	}
 
 	// All uneven Clauses have negative voting rights. Each of them may vote -1.
 	for i := 1; i < len(m.cla); i += 2 {
-		out -= float32(m.cla[i].Output(fea))
+		out -= int(m.cla[i].Output(fea))
 	}
 
 	return out

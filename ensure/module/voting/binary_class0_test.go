@@ -7,7 +7,7 @@ import (
 
 	"github.com/phoebetron/getlin"
 	"github.com/phoebetron/getlin/loader/binary"
-	"github.com/phoebetron/getlin/module/voting"
+	"github.com/phoebetron/getlin/module/single"
 	"github.com/phoebetron/getlin/random/native"
 )
 
@@ -16,8 +16,6 @@ func Test_Module_Voting_Binary_Class0(t *testing.T) {
 		rand.Seed(1)
 	}
 
-	var cl0 = 0
-
 	var ldr getlin.Loader
 	{
 		ldr = binary.New(binary.Config{})
@@ -25,7 +23,7 @@ func Test_Module_Voting_Binary_Class0(t *testing.T) {
 
 	var mod getlin.Module
 	{
-		mod = voting.New(voting.Config{
+		mod = single.New(single.Config{
 			Cla: 64,
 			Fre: 0.1,
 			Inp: 4,
@@ -37,18 +35,27 @@ func Test_Module_Voting_Binary_Class0(t *testing.T) {
 
 	var met getlin.Metric
 	for i := 1; i <= 5; i++ {
-		var bat map[int][][2]getlin.Vector
+		var bat [][2]getlin.Vector
 		{
 			bat = ldr.Search()
 		}
 
-		for _, x := range bat[cl0] {
-			mod.Update(x[0])
-			mod.Update(x[1])
+		var ver [][2]getlin.Vector
+		for _, x := range bat {
+			if x[0].Cla() == 0 {
+				{
+					mod.Update(x[0])
+					mod.Update(x[1])
+				}
+
+				{
+					ver = append(ver, x)
+				}
+			}
 		}
 
 		{
-			met = mod.Verify(bat[cl0])
+			met = mod.Verify(ver)
 		}
 
 		fmt.Printf(
@@ -67,7 +74,7 @@ func Test_Module_Voting_Binary_Class0(t *testing.T) {
 		fmt.Printf("\n")
 	}
 
-	var bat map[int][][2]getlin.Vector
+	var bat [][2]getlin.Vector
 	{
 		bat = ldr.Search()
 	}
@@ -75,18 +82,18 @@ func Test_Module_Voting_Binary_Class0(t *testing.T) {
 	{
 		fmt.Printf(
 			"The test data defines %v to be %b, which the Module confirms with %b.\n",
-			bat[cl0][9][0].Inp().Raw(),
-			bat[cl0][9][0].Out().Raw()[0],
-			mod.Search(bat[cl0][9][0]).Out().Raw()[0],
+			bat[9][0].Inp().Raw(),
+			bat[9][0].Out().Raw()[0],
+			mod.Search(bat[9][0]).Out().Raw()[0],
 		)
 	}
 
 	{
 		fmt.Printf(
 			"The test data defines %v to be %b, which the Module confirms with %b.\n",
-			bat[cl0][9][1].Inp().Raw(),
-			bat[cl0][9][1].Out().Raw()[0],
-			mod.Search(bat[cl0][9][1]).Out().Raw()[0],
+			bat[9][1].Inp().Raw(),
+			bat[9][1].Out().Raw()[0],
+			mod.Search(bat[9][1]).Out().Raw()[0],
 		)
 	}
 

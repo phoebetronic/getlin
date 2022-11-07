@@ -1,4 +1,4 @@
-package voting
+package single
 
 import (
 	"github.com/phoebetron/getlin"
@@ -6,6 +6,8 @@ import (
 	"github.com/phoebetron/getlin/shaper"
 )
 
+// Module implements the classic version of the Tsetlin Machine, voting for a
+// single binary prediction result.
 type Module struct {
 	cla []getlin.Clause
 	ran getlin.Random
