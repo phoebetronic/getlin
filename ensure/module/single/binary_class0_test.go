@@ -81,7 +81,7 @@ func Test_Module_Single_Binary_Class0(t *testing.T) {
 
 	{
 		fmt.Printf(
-			"The test data defines %v to be %b, which the Module confirms with %b.\n",
+			"The test data defines %b to be %b, which the Module confirms with %b.\n",
 			bat[9][0].Inp().Raw(),
 			bat[9][0].Out().Raw(),
 			mod.Search(bat[9][0]).Out().Raw(),
@@ -90,7 +90,7 @@ func Test_Module_Single_Binary_Class0(t *testing.T) {
 
 	{
 		fmt.Printf(
-			"The test data defines %v to be %b, which the Module confirms with %b.\n",
+			"The test data defines %b to be %b, which the Module confirms with %b.\n",
 			bat[9][1].Inp().Raw(),
 			bat[9][1].Out().Raw(),
 			mod.Search(bat[9][1]).Out().Raw(),
