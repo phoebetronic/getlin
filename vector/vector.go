@@ -3,6 +3,7 @@ package vector
 import "github.com/phoebetron/getlin"
 
 type Vector struct {
+	cla int
 	inp *binary
 	out *binary
 }
@@ -13,9 +14,14 @@ func New(con Config) *Vector {
 	}
 
 	return &Vector{
+		cla: con.Cla,
 		inp: newbin(con.Inp...),
 		out: newbin(con.Out...),
 	}
+}
+
+func (v *Vector) Cla() int {
+	return v.cla
 }
 
 func (v *Vector) Cop() getlin.Vector {

@@ -1,6 +1,8 @@
 package getlin
 
 type Vector interface {
+	// Cla returns the optional class identifier this Vector is associated with.
+	Cla() int
 	// Cop returns a copy of this Vector including all of the same raw bits and
 	// true labels.
 	Cop() Vector

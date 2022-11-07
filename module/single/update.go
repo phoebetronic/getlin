@@ -1,4 +1,4 @@
-package voting
+package single
 
 import (
 	"github.com/phoebetron/getlin"
@@ -58,14 +58,14 @@ func (m *Module) Update(vec getlin.Vector) {
 		// All even Clauses receive Type 2 Feedback probabilistically for the
 		// false labels.
 		for i := 0; i < len(m.cla); i += 2 {
-			if m.activn(vot) {
+			if m.actzer(vot) {
 				m.cla[i].TypTwo(fea, out[i])
 			}
 		}
 		// All uneven Clauses receive Type 1 Feedback probabilistically for the
 		// false labels.
 		for i := 1; i < len(m.cla); i += 2 {
-			if m.activn(vot) {
+			if m.actzer(vot) {
 				m.cla[i].TypOne(fea, out[i])
 			}
 		}
@@ -73,41 +73,21 @@ func (m *Module) Update(vec getlin.Vector) {
 		// All even Clauses receive Type 1 Feedback probabilistically for the
 		// true labels.
 		for i := 0; i < len(m.cla); i += 2 {
-			if m.activp(vot) {
+			if m.actone(vot) {
 				m.cla[i].TypOne(fea, out[i])
 			}
 		}
 		// All uneven Clauses receive Type 2 Feedback probabilistically for the
 		// true labels.
 		for i := 1; i < len(m.cla); i += 2 {
-			if m.activp(vot) {
+			if m.actone(vot) {
 				m.cla[i].TypTwo(fea, out[i])
 			}
 		}
 	}
 }
 
-func (m *Module) activn(vot float32) bool {
-	// In case the negative voting threshold is reached for the negative
-	// prediction, the Clause's TAs are sufficiently synced and feedback is
-	// completely disabled without having to access expensive entropy devices.
-	if vot <= -m.thr {
-		return false
-	}
-
-	// In case the positive voting threshold is reached for the negative
-	// prediction, the Clause's TAs are more or less useless and feedback is
-	// fully enabled without having to access expensive entropy devices.
-	if vot >= +m.thr {
-		return true
-	}
-
-	// Within the voting threshold range, more feedback is given the weaker the
-	// negative prediction is.
-	return m.ran.F32() <= (m.thr+vot)/(2*m.thr)
-}
-
-func (m *Module) activp(vot float32) bool {
+func (m *Module) actone(vot float32) bool {
 	// In case the negative voting threshold is reached for the positive
 	// prediction, the Clause's TAs are more or less useless and feedback is
 	// fully enabled without having to access expensive entropy devices.
@@ -125,4 +105,24 @@ func (m *Module) activp(vot float32) bool {
 	// Within the voting threshold range, more feedback is given the weaker the
 	// positive prediction is.
 	return m.ran.F32() <= (m.thr-vot)/(2*m.thr)
+}
+
+func (m *Module) actzer(vot float32) bool {
+	// In case the negative voting threshold is reached for the negative
+	// prediction, the Clause's TAs are sufficiently synced and feedback is
+	// completely disabled without having to access expensive entropy devices.
+	if vot <= -m.thr {
+		return false
+	}
+
+	// In case the positive voting threshold is reached for the negative
+	// prediction, the Clause's TAs are more or less useless and feedback is
+	// fully enabled without having to access expensive entropy devices.
+	if vot >= +m.thr {
+		return true
+	}
+
+	// Within the voting threshold range, more feedback is given the weaker the
+	// negative prediction is.
+	return m.ran.F32() <= (m.thr+vot)/(2*m.thr)
 }
