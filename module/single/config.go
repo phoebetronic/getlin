@@ -2,7 +2,7 @@ package single
 
 import (
 	"github.com/phoebetron/getlin"
-	"github.com/phoebetron/getlin/random/crypto"
+	"github.com/phoebetron/getlin/random/native"
 )
 
 type Config struct {
@@ -31,7 +31,7 @@ type Config struct {
 
 func (c Config) Ensure() Config {
 	if c.Ran == nil {
-		c.Ran = crypto.New(crypto.Config{})
+		c.Ran = native.New(native.Config{})
 	}
 
 	return c
