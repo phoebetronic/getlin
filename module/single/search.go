@@ -2,6 +2,7 @@ package single
 
 import (
 	"github.com/phoebetron/getlin"
+	"github.com/phoebetron/getlin/stat32"
 	"github.com/phoebetron/getlin/vector"
 )
 
@@ -39,21 +40,5 @@ func (m *Module) output(fea []float32) float32 {
 	//                   1
 	//                   •
 	//
-	return minf32(maxf32(0, out), 1)
-}
-
-func maxf32(a float32, b float32) float32 {
-	if a > b {
-		return a
-	}
-
-	return b
-}
-
-func minf32(a float32, b float32) float32 {
-	if a < b {
-		return a
-	}
-
-	return b
+	return stat32.Minf32(stat32.Maxf32(0, out), 1)
 }

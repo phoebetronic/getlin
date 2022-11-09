@@ -3,6 +3,7 @@ package multic
 import (
 	"github.com/phoebetron/getlin"
 	"github.com/phoebetron/getlin/metric"
+	"github.com/phoebetron/getlin/stat32"
 )
 
 func (m *Module) Verify(vec [][2]getlin.Vector) getlin.Metric {
@@ -13,20 +14,18 @@ func (m *Module) Verify(vec [][2]getlin.Vector) getlin.Metric {
 
 	for _, x := range vec {
 		for _, y := range x {
-			var c int
-			var t float32
+			var t int
 			{
-				c = y.Cla()
-				t = y.Out()[0]
+				t = y.Cla()
 			}
 
-			var p []float32
+			var p int
 			{
-				p = m.Search(y).Out()
+				p = stat32.Argmax(m.Search(y).Out())
 			}
 
 			{
-				met.Set().Err(t, p[c])
+				met.Set().Err(float32(t), float32(p))
 			}
 		}
 	}
