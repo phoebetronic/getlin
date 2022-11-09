@@ -14,15 +14,15 @@ func (m *Module) Verify(vec [][2]getlin.Vector) getlin.Metric {
 	for _, x := range vec {
 		for _, y := range x {
 			var c int
-			var t uint8
+			var t float32
 			{
 				c = y.Cla()
-				t = y.Out().Raw()[0]
+				t = y.Out()[0]
 			}
 
-			var p []uint8
+			var p []float32
 			{
-				p = m.Search(y).Out().Raw()
+				p = m.Search(y).Out()
 			}
 
 			if t == 1 && p[c] == 1 {

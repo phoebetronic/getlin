@@ -27,12 +27,6 @@ type Config struct {
 	Inp int
 	// Ran provides randomization primitives for applying stochastic feedback.
 	Ran getlin.Random
-	// Sta is the number of states along a single side of the Tsetlin Automata
-	// (TAs) states distribution. See clause.Config for more information.
-	Sta int
-	// Thr defines an upper limit above voting majority in order to provide
-	// Clause feedback less often the better the Clauses perform.
-	Thr int
 }
 
 func (c Config) Ensure() Config {
@@ -55,8 +49,5 @@ func (c Config) Verify() {
 	}
 	if c.Ran == nil {
 		panic("Config.Ran must not be empty")
-	}
-	if c.Sta == 0 {
-		panic("Config.Sta must not be empty")
 	}
 }

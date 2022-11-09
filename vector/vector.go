@@ -1,11 +1,9 @@
 package vector
 
-import "github.com/phoebetron/getlin"
-
 type Vector struct {
 	cla int
-	inp *binary
-	out *binary
+	inp []float32
+	out []float32
 }
 
 func New(con Config) *Vector {
@@ -15,8 +13,8 @@ func New(con Config) *Vector {
 
 	return &Vector{
 		cla: con.Cla,
-		inp: newbin(con.Inp...),
-		out: newbin(con.Out...),
+		inp: con.Inp,
+		out: con.Out,
 	}
 }
 
@@ -24,18 +22,10 @@ func (v *Vector) Cla() int {
 	return v.cla
 }
 
-func (v *Vector) Cop() getlin.Vector {
-	return New(Config{Inp: v.Inp().Raw(), Out: v.Inp().Raw()})
-}
-
-func (v *Vector) Eql(vec getlin.Vector) bool {
-	return v.Inp().Eql(vec.Inp()) && v.Out().Eql(vec.Out())
-}
-
-func (v *Vector) Inp() getlin.Binary {
+func (v *Vector) Inp() []float32 {
 	return v.inp
 }
 
-func (v *Vector) Out() getlin.Binary {
+func (v *Vector) Out() []float32 {
 	return v.out
 }
