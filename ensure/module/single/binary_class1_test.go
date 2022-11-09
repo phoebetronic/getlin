@@ -24,17 +24,15 @@ func Test_Module_Single_Binary_Class1(t *testing.T) {
 	var mod getlin.Module
 	{
 		mod = single.New(single.Config{
-			Cla: 64,
+			Cla: 32,
 			Fre: 0.1,
 			Inp: 4,
 			Ran: native.New(native.Config{}),
-			Sta: 32,
-			Thr: 4,
 		})
 	}
 
 	var met getlin.Metric
-	for i := 1; i <= 5; i++ {
+	for i := 1; i <= 15; i++ {
 		var bat [][2]getlin.Vector
 		{
 			bat = ldr.Search()
@@ -81,19 +79,19 @@ func Test_Module_Single_Binary_Class1(t *testing.T) {
 
 	{
 		fmt.Printf(
-			"The test data defines %b to be %b, which the Module confirms with %b.\n",
-			bat[21][0].Inp().Raw(),
-			bat[21][0].Out().Raw(),
-			mod.Search(bat[21][0]).Out().Raw(),
+			"The test data defines %v to be %v, which the Module confirms with %v.\n",
+			bat[21][0].Inp(),
+			bat[21][0].Out(),
+			mod.Search(bat[21][0]).Out(),
 		)
 	}
 
 	{
 		fmt.Printf(
-			"The test data defines %b to be %b, which the Module confirms with %b.\n",
-			bat[21][1].Inp().Raw(),
-			bat[21][1].Out().Raw(),
-			mod.Search(bat[21][1]).Out().Raw(),
+			"The test data defines %v to be %v, which the Module confirms with %v.\n",
+			bat[21][1].Inp(),
+			bat[21][1].Out(),
+			mod.Search(bat[21][1]).Out(),
 		)
 	}
 

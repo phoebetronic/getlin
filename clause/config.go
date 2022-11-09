@@ -14,23 +14,6 @@ type Config struct {
 	Fre float32
 	// Ran provides randomization primitives for applying stochastic feedback.
 	Ran getlin.Random
-	// Sta is the number of states S along a single side of the states
-	// distribution, where the final states distribution will be (2 * S) + 1.
-	// Below is illustrated a state distribution 9 = S = 4.
-	//
-	//                    -                                     +
-	//
-	//           S     3     2     1         0         1     2     3     S
-	//
-	//           ·     ·     ·     ·         ·         ·     i     ·     ·
-	//
-	//           ·     e     ·     ·         ·         ·     ·     ·     ·
-	//
-	//           ·     ·     ·     ·         n         ·     ·     ·     ·
-	//
-	//           ·     ·     ·     e         ·         ·     ·     ·     ·
-	//
-	Sta int
 	// Tas is the number of Tsetlin Automata (TAs) managed by the Clause. This
 	// is the number of binary features of the desired input Vectors to train.
 	// That is, input Vectors represented with 4 bits require 4 TAs, e.g. 0110.
@@ -64,9 +47,6 @@ func (c Config) Verify() {
 	}
 	if c.Ran == nil {
 		panic("Config.Ran must not be empty")
-	}
-	if c.Sta == 0 {
-		panic("Config.Sta must not be empty")
 	}
 	if c.Tas == 0 {
 		panic("Config.Tas must not be empty")

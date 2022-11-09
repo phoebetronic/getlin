@@ -12,275 +12,266 @@ import (
 func Test_Automa_Lifecycle(t *testing.T) {
 	testCases := []struct {
 		set func(getlin.Automa)
-		sta int
-		poi int
+		ini float32
 		inc bool
 		exc bool
 		hig bool
 		low bool
+		poi float32
 	}{
 		// Case 0
 		{
 			set: func(a getlin.Automa) {
 				// nothing
 			},
-			sta: 4,
-			poi: 4,
+			ini: 0.5,
 			inc: false,
 			exc: true,
 			hig: false,
 			low: false,
+			poi: 0.5,
 		},
 		// Case 1
 		{
 			set: func(a getlin.Automa) {
-				a.Add()
+				a.Add(0.1) // 0.6
 			},
-			sta: 4,
-			poi: 4,
+			ini: 0.5,
 			inc: true,
 			exc: false,
 			hig: false,
 			low: false,
+			poi: 0.6000000238418579,
 		},
 		// Case 2
 		{
 			set: func(a getlin.Automa) {
-				a.Add()
-				a.Add()
-				a.Red()
+				a.Add(0.1) // 0.6
+				a.Add(0.1) // 0.7
+				a.Red(0.1) // 0.6
 			},
-			sta: 4,
-			poi: 4,
+			ini: 0.5,
 			inc: true,
 			exc: false,
 			hig: false,
 			low: false,
+			poi: 0.6000000238418579,
 		},
 		// Case 3
 		{
 			set: func(a getlin.Automa) {
-				a.Red()
+				a.Red(0.1) // 0.4
 			},
-			sta: 4,
-			poi: 4,
+			ini: 0.5,
 			inc: false,
 			exc: true,
 			hig: false,
 			low: false,
+			poi: 0.4000000059604645,
 		},
 		// Case 4
 		{
 			set: func(a getlin.Automa) {
-				a.Red()
-				a.Red()
-				a.Add()
-				a.Add()
+				a.Red(0.1) // 0.4
+				a.Red(0.1) // 0.3
+				a.Add(0.1) // 0.4
+				a.Add(0.1) // 0.5
 			},
-			sta: 4,
-			poi: 4,
+			ini: 0.5,
 			inc: false,
 			exc: true,
 			hig: false,
 			low: false,
+			poi: 0.5,
 		},
 		// Case 5
 		{
 			set: func(a getlin.Automa) {
-				a.Red()
-				a.Red()
-				a.Add()
-				a.Add()
-				a.Add()
+				a.Red(0.1) // 0.4
+				a.Red(0.1) // 0.3
+				a.Add(0.1) // 0.4
+				a.Add(0.1) // 0.5
+				a.Add(0.1) // 0.6
 			},
-			sta: 4,
-			poi: 4,
+			ini: 0.5,
 			inc: true,
 			exc: false,
 			hig: false,
 			low: false,
+			poi: 0.6000000238418579,
 		},
 		// Case 6
 		{
 			set: func(a getlin.Automa) {
-				a.Red()
-				a.Red()
-				a.Red()
-				a.Red()
-				a.Red()
-				a.Red()
-				a.Red()
-				a.Red()
-				a.Red()
+				a.Red(0.1) // 0.4
+				a.Red(0.1) // 0.3
+				a.Red(0.1) // 0.2
+				a.Red(0.1) // 0.1
+				a.Red(0.1) // 0.0
+				a.Red(0.1) // 0.0
+				a.Red(0.1) // 0.0
+				a.Red(0.1) // 0.0
+				a.Red(0.1) // 0.0
 			},
-			sta: 4,
-			poi: 4,
+			ini: 0.5,
 			inc: false,
 			exc: true,
 			hig: false,
 			low: true,
+			poi: 0.0,
 		},
 		// Case 7
 		{
 			set: func(a getlin.Automa) {
-				a.Red()
-				a.Red()
-				a.Red()
-				a.Red()
-				a.Red()
-				a.Red()
-				a.Red()
-				a.Red()
-				a.Red()
+				a.Red(0.1) // 0.4
+				a.Red(0.1) // 0.3
+				a.Red(0.1) // 0.2
+				a.Red(0.1) // 0.1
+				a.Red(0.1) // 0.0
+				a.Red(0.1) // 0.0
+				a.Red(0.1) // 0.0
+				a.Red(0.1) // 0.0
+				a.Red(0.1) // 0.0
 
-				a.Add()
-				a.Add()
-				a.Add()
-				a.Add()
-				a.Add()
+				a.Add(0.1) // 0.1
+				a.Add(0.1) // 0.2
+				a.Add(0.1) // 0.3
+				a.Add(0.1) // 0.4
+				a.Add(0.1) // 0.5
+				a.Add(0.1) // 0.6
 			},
-			sta: 4,
-			poi: 4,
+			ini: 0.5,
 			inc: true,
 			exc: false,
 			hig: false,
 			low: false,
+			poi: 0.6000000238418579,
 		},
 		// Case 8
 		{
 			set: func(a getlin.Automa) {
-				a.Add() // 5
-				a.Add() // 6
-				a.Add() // 7
+				a.Add(0.1) // 0.6
+				a.Add(0.1) // 0.7
+				a.Add(0.1) // 0.8
 			},
-			sta: 4,
-			poi: 4,
+			ini: 0.5,
 			inc: true,
 			exc: false,
 			hig: false,
 			low: false,
+			poi: 0.8000000715255737,
 		},
 		// Case 9
 		{
 			set: func(a getlin.Automa) {
-				a.Add() // 5
-				a.Add() // 6
-				a.Add() // 7
-				a.Add() // 8
+				a.Add(0.1) // 0.6
+				a.Add(0.1) // 0.7
+				a.Add(0.1) // 0.8
+				a.Add(0.1) // 0.9
+				a.Add(0.1) // 1.0
 			},
-			sta: 4,
-			poi: 4,
+			ini: 0.5,
 			inc: true,
 			exc: false,
 			hig: true,
 			low: false,
+			poi: 1.0,
 		},
 		// Case 10
 		{
 			set: func(a getlin.Automa) {
-				a.Add() // 5
-				a.Add() // 6
-				a.Add() // 7
-				a.Add() // 8
-				a.Add() // 8
+				a.Add(0.1) // 0.6
+				a.Add(0.1) // 0.7
+				a.Add(0.1) // 0.8
+				a.Add(0.1) // 0.9
+				a.Add(0.1) // 1.0
 			},
-			sta: 4,
-			poi: 4,
+			ini: 0.5,
 			inc: true,
 			exc: false,
 			hig: true,
 			low: false,
+			poi: 1.0,
 		},
 		// Case 11
 		{
 			set: func(a getlin.Automa) {
-				a.Red() // 3
-				a.Red() // 2
+				a.Red(0.1) // 0.4
+				a.Red(0.1) // 0.3
 			},
-			sta: 4,
-			poi: 4,
+			ini: 0.5,
 			inc: false,
 			exc: true,
 			hig: false,
 			low: false,
+			poi: 0.30000001192092896,
 		},
 		// Case 12
 		{
 			set: func(a getlin.Automa) {
-				a.Red() // 3
-				a.Red() // 2
-				a.Red() // 1
+				a.Red(0.1) // 0.4
+				a.Red(0.1) // 0.3
+				a.Red(0.1) // 0.2
+				a.Red(0.1) // 0.1
+				a.Red(0.1) // 0.0
+				a.Red(0.1) // 0.0
 			},
-			sta: 4,
-			poi: 4,
+			ini: 0.5,
 			inc: false,
 			exc: true,
 			hig: false,
 			low: true,
+			poi: 0.0,
 		},
 		// Case 13
 		{
 			set: func(a getlin.Automa) {
-				a.Red() // 3
-				a.Red() // 2
-				a.Red() // 1
-				a.Red() // 1
-			},
-			sta: 4,
-			poi: 4,
-			inc: false,
-			exc: true,
-			hig: false,
-			low: true,
-		},
-		// Case 14
-		{
-			set: func(a getlin.Automa) {
-				a.Add() // 5
-				a.Add() // 6
-				a.Add() // 7
-				a.Add() // 8
-				a.Add() // 8
-				a.Add() // 8
-				a.Add() // 8
-				a.Add() // 8
-				a.Add() // 8
+				a.Add(0.1) // 0.6
+				a.Add(0.1) // 0.7
+				a.Add(0.1) // 0.8
+				a.Add(0.1) // 0.9
+				a.Add(0.1) // 1.0
+				a.Add(0.1) // 1.0
+				a.Add(0.1) // 1.0
+				a.Add(0.1) // 1.0
+				a.Add(0.1) // 1.0
 
-				a.Red() // 7
-				a.Red() // 6
-				a.Red() // 5
+				a.Red(0.1) // 0.9
+				a.Red(0.1) // 0.8
+				a.Red(0.1) // 0.7
 			},
-			sta: 4,
-			poi: 4,
+			ini: 0.5,
 			inc: true,
 			exc: false,
 			hig: false,
 			low: false,
+			poi: 0.6999999284744263,
 		},
-		// Case 15
+		// Case 14
 		{
 			set: func(a getlin.Automa) {
-				a.Add() // 5
-				a.Add() // 6
-				a.Add() // 7
-				a.Add() // 8
-				a.Add() // 8
-				a.Add() // 8
-				a.Add() // 8
-				a.Add() // 8
-				a.Add() // 8
+				a.Add(0.1) // 0.6
+				a.Add(0.1) // 0.7
+				a.Add(0.1) // 0.8
+				a.Add(0.1) // 0.9
+				a.Add(0.1) // 1.0
+				a.Add(0.1) // 1.0
+				a.Add(0.1) // 1.0
+				a.Add(0.1) // 1.0
+				a.Add(0.1) // 1.0
 
-				a.Red() // 7
-				a.Red() // 6
-				a.Red() // 5
-				a.Red() // 4
+				a.Red(0.1) // 0.9
+				a.Red(0.1) // 0.8
+				a.Red(0.1) // 0.7
+				a.Red(0.1) // 0.6
+				a.Red(0.1) // 0.5
 			},
-			sta: 4,
-			poi: 4,
+			ini: 0.5,
 			inc: false,
 			exc: true,
 			hig: false,
 			low: false,
+			poi: 0.49999991059303284,
 		},
 	}
 
@@ -289,8 +280,7 @@ func Test_Automa_Lifecycle(t *testing.T) {
 			var a getlin.Automa
 			{
 				a = New(Config{
-					Poi: tc.poi,
-					Sta: tc.sta,
+					Poi: tc.ini,
 				})
 			}
 
@@ -318,6 +308,11 @@ func Test_Automa_Lifecycle(t *testing.T) {
 				low = a.Low()
 			}
 
+			var poi float32
+			{
+				poi = a.Poi()
+			}
+
 			if !reflect.DeepEqual(inc, tc.inc) {
 				t.Fatalf("inc\n\n%s\n", cmp.Diff(tc.inc, inc))
 			}
@@ -329,6 +324,9 @@ func Test_Automa_Lifecycle(t *testing.T) {
 			}
 			if !reflect.DeepEqual(low, tc.low) {
 				t.Fatalf("low\n\n%s\n", cmp.Diff(tc.low, low))
+			}
+			if !reflect.DeepEqual(poi, tc.poi) {
+				t.Fatalf("poi\n\n%s\n", cmp.Diff(tc.poi, poi))
 			}
 		})
 	}

@@ -66,8 +66,8 @@ func (l *Loader) Search(fil string) []getlin.Vector {
 	return vec
 }
 
-func musinp(str []string) []uint8 {
-	var bit []uint8
+func musinp(str []string) []float32 {
+	var bit []float32
 
 	for _, x := range str {
 		var num int
@@ -96,10 +96,10 @@ func musint(str string) int {
 	return int(num)
 }
 
-func musout(str string) []uint8 {
-	var bit []uint8
+func musout(str string) []float32 {
+	var bit []float32
 	{
-		bit = make([]uint8, 10)
+		bit = make([]float32, 10)
 	}
 
 	{

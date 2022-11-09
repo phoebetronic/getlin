@@ -6,10 +6,10 @@ type Config struct {
 	Cla int
 	// Inp carries the input bits consumed by any given Module, be it inference
 	// or training.
-	Inp []uint8
+	Inp []float32
 	// Out provides either the externally defined true labels or carries the
 	// predicted labels.
-	Out []uint8
+	Out []float32
 }
 
 func (c Config) Verify() {}
