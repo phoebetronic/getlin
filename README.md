@@ -23,21 +23,22 @@ One of the most basic pattern recognition tasks is to differentiate classes of
 bit patterns. Consider a 4 bit pattern like `[0 1 0 1]`, of which there are 16
 unique patterns to differentiate. Getlin trains 1 Module, that is one Tsetlin
 Machine per class. The following multi class classification example can be run
-and verified via `go test ./ensure/module/multic -v` printing the converging
-mean absolute error for the given epoch.
+and verified via `go test ./ensure/module/multic -v` printing the mean absolute
+error for the given epoch. In this very basic example the error is already zero
+after the first epoch.
 
 ```
-epo  1    mae 0.257
-epo  2    mae 0.146
-epo  3    mae 0.111
-epo  4    mae 0.178
-epo  5    mae 0.074
-epo  6    mae 0.091
-epo  7    mae 0.001
-epo  8    mae 0.017
-epo  9    mae 0.042
-epo 10    mae 0.049
-epo 11    mae 0.003
+epo  1    mae 0.000
+epo  2    mae 0.000
+epo  3    mae 0.000
+epo  4    mae 0.000
+epo  5    mae 0.000
+epo  6    mae 0.000
+epo  7    mae 0.000
+epo  8    mae 0.000
+epo  9    mae 0.000
+epo 10    mae 0.000
+epo 11    mae 0.000
 epo 12    mae 0.000
 epo 13    mae 0.000
 epo 14    mae 0.000
