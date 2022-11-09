@@ -24,7 +24,7 @@ bit patterns. Consider a 4 bit pattern like `[0 1 0 1]`, of which there are 16
 unique patterns to differentiate. Getlin trains 1 Module, that is one Tsetlin
 Machine per class. The following multi class classification example can be run
 and verified via `go test ./ensure/module/multic -v` printing the converging
-mean absolute error and the accuracy for the given epoch.
+mean absolute error and accuracy for the given epoch.
 
 ```
 epo  1    mae 0.200    acc 0.800
