@@ -59,15 +59,14 @@ func Test_Module_Multic_Binary(t *testing.T) {
 		}
 
 		fmt.Printf(
-			"epo %2d    mae %4.3f    acc %4.3f\n",
+			"epo %2d    mae %4.3f\n",
 			i,
-			met.Get().Mat().Mae(),
-			met.Get().Mat().Acc(),
+			met.Get().Err().Mae(),
 		)
 	}
 
-	if met.Get().Mat().Acc() != 1.0 {
-		t.Fatal("accuracy must be 1.0")
+	if met.Get().Err().Mae() > 0.02 {
+		t.Fatal("mean absolute error must be less than 0.02")
 	}
 
 	{
@@ -81,8 +80,9 @@ func Test_Module_Multic_Binary(t *testing.T) {
 
 	{
 		fmt.Printf(
-			"The test data defines %v in class 1 to be %v, which the Module confirms with %v.\n",
+			"The test data defines %v in class %v to be %v, which the Module confirms with %v.\n",
 			bat[9][0].Inp(),
+			bat[9][0].Cla(),
 			bat[9][0].Out(),
 			mod.Search(bat[9][0]).Out(),
 		)
@@ -90,8 +90,9 @@ func Test_Module_Multic_Binary(t *testing.T) {
 
 	{
 		fmt.Printf(
-			"The test data defines %v in class 1 to be %v, which the Module confirms with %v.\n",
+			"The test data defines %v in class %v to be %v, which the Module confirms with %v.\n",
 			bat[9][1].Inp(),
+			bat[9][1].Cla(),
 			bat[9][1].Out(),
 			mod.Search(bat[9][1]).Out(),
 		)
@@ -103,8 +104,9 @@ func Test_Module_Multic_Binary(t *testing.T) {
 
 	{
 		fmt.Printf(
-			"The test data defines %v in class 2 to be %v, which the Module confirms with %v.\n",
+			"The test data defines %v in class %v to be %v, which the Module confirms with %v.\n",
 			bat[21][0].Inp(),
+			bat[21][0].Cla(),
 			bat[21][0].Out(),
 			mod.Search(bat[21][0]).Out(),
 		)
@@ -112,8 +114,9 @@ func Test_Module_Multic_Binary(t *testing.T) {
 
 	{
 		fmt.Printf(
-			"The test data defines %v in class 2 to be %v, which the Module confirms with %v.\n",
+			"The test data defines %v in class %v to be %v, which the Module confirms with %v.\n",
 			bat[21][1].Inp(),
+			bat[21][1].Cla(),
 			bat[21][1].Out(),
 			mod.Search(bat[21][1]).Out(),
 		)

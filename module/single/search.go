@@ -6,14 +6,10 @@ import (
 )
 
 func (m *Module) Search(vec getlin.Vector) getlin.Vector {
-	if m.voting(vec.Inp()) >= 0 {
-		return vector.New(vector.Config{Out: []float32{1}})
-	} else {
-		return vector.New(vector.Config{Out: []float32{0}})
-	}
+	return vector.New(vector.Config{Out: []float32{m.output(vec.Inp())}})
 }
 
-func (m *Module) voting(fea []float32) float32 {
+func (m *Module) output(fea []float32) float32 {
 	var out float32
 
 	// All even Clauses have positive voting rights. Each of them may vote +1.
@@ -26,5 +22,38 @@ func (m *Module) voting(fea []float32) float32 {
 		out -= m.cla[i].Output(fea)
 	}
 
-	return out
+	// A ReLu clipping is applied to the returned voting result so that the
+	// output Vector range is within [0.0, 1.0].
+	//
+	//                   •
+	//                   1         + + +
+	//                   •       +
+	//                   •     +
+	//                   •   +
+	//                   • +
+	//     + + 1 + + + + 0 • • • • 1 • •
+	//                   •
+	//                   •
+	//                   •
+	//                   •
+	//                   1
+	//                   •
+	//
+	return minf32(maxf32(0, out), 1)
+}
+
+func maxf32(a float32, b float32) float32 {
+	if a > b {
+		return a
+	}
+
+	return b
+}
+
+func minf32(a float32, b float32) float32 {
+	if a < b {
+		return a
+	}
+
+	return b
 }

@@ -6,8 +6,8 @@ type getter struct {
 	sha *shared
 }
 
-func (g *getter) Mat() getlin.Matrix {
-	return g.sha.mat
+func (g *getter) Err() getlin.Errors {
+	return g.sha.err
 }
 
 func (g *getter) Sta() getlin.States {

@@ -9,99 +9,75 @@ import (
 	"github.com/phoebetron/getlin"
 )
 
-func Test_Metric_Matrix(t *testing.T) {
+func Test_Metric_Errors(t *testing.T) {
 	testCases := []struct {
-		sam [4]int
-		acc float32
+		set [][2]float32
 		mae float32
 	}{
 		// Case 0
 		{
-			sam: [4]int{
-				TP: 3,
-				TN: 0,
-				FP: 0,
-				FN: 0,
+			set: [][2]float32{
+				{1.0, 1.0},
+				{0.2, 0.2},
 			},
-			acc: 1,
-			mae: 0,
+			mae: 0.0,
 		},
 		// Case 1
 		{
-			sam: [4]int{
-				TP: 0,
-				TN: 3,
-				FP: 0,
-				FN: 0,
+			set: [][2]float32{
+				{0.0, 0.0},
+				{0.0, 0.0},
 			},
-			acc: 1,
-			mae: 0,
+			mae: 0.0,
 		},
 		// Case 2
 		{
-			sam: [4]int{
-				TP: 6,
-				TN: 3,
-				FP: 0,
-				FN: 0,
+			set: [][2]float32{
+				{0.0, 0.0},
+				{1.0, 1.0},
+				{0.0, 0.0},
+				{0.5, 0.5},
 			},
-			acc: 1,
-			mae: 0,
+			mae: 0.0,
 		},
 		// Case 3
 		{
-			sam: [4]int{
-				TP: 0,
-				TN: 0,
-				FP: 5,
-				FN: 0,
+			set: [][2]float32{
+				{0.0, 1.0},
 			},
-			acc: 0,
-			mae: 1,
+			mae: 1.0,
 		},
 		// Case 4
 		{
-			sam: [4]int{
-				TP: 0,
-				TN: 0,
-				FP: 0,
-				FN: 5,
+			set: [][2]float32{
+				{0.5, 0.3},
 			},
-			acc: 0,
-			mae: 1,
+			mae: 0.19999998807907104,
 		},
 		// Case 5
 		{
-			sam: [4]int{
-				TP: 0,
-				TN: 0,
-				FP: 2,
-				FN: 4,
+			set: [][2]float32{
+				{0.0, 1.0},
+				{0.5, 0.3},
 			},
-			acc: 0,
-			mae: 1,
+			mae: 0.6000000238418579,
 		},
 		// Case 6
 		{
-			sam: [4]int{
-				TP: 4,
-				TN: 0,
-				FP: 2,
-				FN: 0,
+			set: [][2]float32{
+				{0.0, 1.0},
+				{1.0, 1.0},
+				{0.5, 0.3},
+				{0.3, 0.3},
+				{0.6, 0.6},
+				{0.3, 0.3},
+				{0.7, 0.6},
+				{0.9, 0.0},
+				{0.9, 0.9},
+				{0.4, 0.4},
+				{0.4, 0.4},
 			},
-			acc: 0.6666666865348816,
-			mae: 0.3333333432674408,
-		},
-		// Case 7
-		{
-			sam: [4]int{
-				TP: 5,
-				TN: 8,
-				FP: 2,
-				FN: 1,
-			},
-			acc: 0.8125,
-			mae: 0.1875,
+			mae: 0.19999998807907104,
 		},
 	}
 
@@ -112,25 +88,15 @@ func Test_Metric_Matrix(t *testing.T) {
 				met = New(Config{})
 			}
 
-			for i, x := range tc.sam {
-				for j := 0; j < x; j++ {
-					met.Set().Mat(i, 1)
-				}
-			}
-
-			var acc float32
-			{
-				acc = met.Get().Mat().Acc()
+			for _, x := range tc.set {
+				met.Set().Err(x[0], x[1])
 			}
 
 			var mae float32
 			{
-				mae = met.Get().Mat().Mae()
+				mae = met.Get().Err().Mae()
 			}
 
-			if !reflect.DeepEqual(acc, tc.acc) {
-				t.Fatalf("acc\n\n%s\n", cmp.Diff(tc.acc, acc))
-			}
 			if !reflect.DeepEqual(mae, tc.mae) {
 				t.Fatalf("mae\n\n%s\n", cmp.Diff(tc.mae, mae))
 			}

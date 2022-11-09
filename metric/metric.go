@@ -8,7 +8,7 @@ type Metric struct {
 }
 
 type shared struct {
-	mat *matrix
+	err *errors
 	sta *states
 }
 
@@ -20,7 +20,7 @@ func New(con Config) *Metric {
 	var sha *shared
 	{
 		sha = &shared{
-			mat: &matrix{},
+			err: &errors{},
 			sta: &states{},
 		}
 	}

@@ -6,29 +6,19 @@ type Metric interface {
 }
 
 type Getter interface {
-	Mat() Matrix
+	Err() Errors
 	Sta() States
 }
 
 type Setter interface {
-	Mat(int, int)
+	Err(float32, float32)
 	Sta(int, int)
 }
 
-type Matrix interface {
-	// Acc returns the accuracy currently recorded by this confusion matrix.
-	//
-	//     (TP + TN) / (TP + TN + FP + FN)
-	//
-	Acc() float32
-	// Mae returns the mean absolute error of the currently recorded predicted
-	// and true labels.
-	//
-	//     (FP + FN) / (TP + TN + FP + FN)
-	//
+type Errors interface {
+	// Mae returns the mean absolute error of the currently recorded true
+	// weights and weight predictions.
 	Mae() float32
-	// Raw returns the currently recorded list of raw confusion matrix states.
-	Raw() [4]int
 }
 
 type States interface {

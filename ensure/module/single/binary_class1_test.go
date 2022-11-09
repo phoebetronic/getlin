@@ -57,15 +57,14 @@ func Test_Module_Single_Binary_Class1(t *testing.T) {
 		}
 
 		fmt.Printf(
-			"epo %2d    mae %4.3f    acc %4.3f\n",
+			"epo %2d    mae %4.3f\n",
 			i,
-			met.Get().Mat().Mae(),
-			met.Get().Mat().Acc(),
+			met.Get().Err().Mae(),
 		)
 	}
 
-	if met.Get().Mat().Acc() != 1.0 {
-		t.Fatal("accuracy must be 1.0")
+	if met.Get().Err().Mae() > 0.02 {
+		t.Fatal("mean absolute error must be less than 0.02")
 	}
 
 	{
