@@ -13,12 +13,10 @@ func (m *Module) Search(vec getlin.Vector) getlin.Vector {
 func (m *Module) output(fea []float32) float32 {
 	var out float32
 
-	// All even Clauses have positive voting rights. Each of them may vote +1.
 	for i := 0; i < len(m.cla); i += 2 {
 		out += m.cla[i].Output(fea)
 	}
 
-	// All uneven Clauses have negative voting rights. Each of them may vote -1.
 	for i := 1; i < len(m.cla); i += 2 {
 		out -= m.cla[i].Output(fea)
 	}

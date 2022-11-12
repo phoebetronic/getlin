@@ -28,26 +28,15 @@ func (m *Module) Verify(vec [][2]getlin.Vector) getlin.Metric {
 			a = stat32.Argmax(o)
 		}
 
-		var t []float32
-		{
-			t = make([]float32, len(o))
-		}
-
-		{
-			t[c] = 1
-		}
-
-		var p []float32
-		{
-			p = make([]float32, len(o))
-		}
-
-		{
-			p[a] = 1
-		}
-
-		for i := range o {
-			met.Set().Err(t[i], p[i])
+		if o[a] == 0 {
+			met.Set().Err(1, 0)
+		} else {
+			if c == a {
+				met.Set().Err(1, 1)
+			}
+			if c != a {
+				met.Set().Err(1, o[a])
+			}
 		}
 	}
 

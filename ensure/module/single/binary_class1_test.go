@@ -25,7 +25,7 @@ func Test_Module_Single_Binary_Class1(t *testing.T) {
 	{
 		mod = single.New(single.Config{
 			Cla: 32,
-			Fre: 0.1,
+			Fre: 0.05,
 			Inp: 4,
 			Ran: native.New(native.Config{}),
 		})
