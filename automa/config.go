@@ -10,7 +10,11 @@ type Config struct {
 
 func (c Config) Ensure() Config {
 	if c.Poi == 0 {
-		c.Poi = rand.Float32() // TODO configure real random
+		if rand.Float32() <= 0.5 {
+			c.Poi = 0.5
+		} else {
+			c.Poi = 0.6
+		}
 	}
 
 	return c
